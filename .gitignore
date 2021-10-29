@@ -1,0 +1,3 @@
+*.class
+/individuals/*.class
+/utils/*.class
