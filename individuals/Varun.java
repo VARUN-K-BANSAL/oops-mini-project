@@ -7,7 +7,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class S20200010223 {
+
+/**
+ * change to sub packages with admin class
+ */
+public class Varun {
 
     final private static int KEY = 5;
     final private static String ALPHA = "abcdefghijklmnopqrstuvwxyz";

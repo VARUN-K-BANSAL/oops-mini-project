@@ -1,5 +1,5 @@
 import java.io.IOException;
-import individuals.S20200010223;
+import individuals.Varun;
 
 /**
  * Main
@@ -18,11 +18,16 @@ public class Main {
                     break;
             
             case "-a":
-                    S20200010223.checkAdmin(args);
+                    if(args.length < 3) {
+                        System.out.println("Invalid number of arguments entered, use help for more details");
+                        return;
+                    }
+
+                    Varun.checkAdmin(args);
                     break;
 
             case "-u":
-                    S20200010223.updatePassword(args);
+                    Varun.updatePassword(args);
                     break;
 
             default:
@@ -36,6 +41,7 @@ public class Main {
         System.out.println("Record Manager, version 1.0.0");
         System.out.println("  -h\tfor the commands help");
         System.out.println("  -a\tfor admin access followed by username and password");
+        System.out.println("  -u\tfor updating password followed by username, old password then new password");
         System.out.println("-------------------------------------------------------------------");
     }
 }
