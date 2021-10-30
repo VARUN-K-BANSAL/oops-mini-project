@@ -18,3 +18,24 @@
 #### ![AKHILA GUTTULA](https://github.com/github-akhila) - S20200010074
 #### ![VASAM VENU](https://github.com/venuvasam09) - S20200010225
 #### ![VARUN KUMAR BANSAL](https://github.com/VARUN-K-BANSAL) - S20200010223 -->
+
+### Steps for running
+
+#### 1. Clone the repository
+```
+git clone https://github.com/VARUN-K-BANSAL/oops-mini-project.git
+cd oops-mini-project
+```
+
+#### 2. Compile the Main file
+```
+javac Main.java
+```
+
+#### 3. Run the Main file
+```
+java Main
+```
+```
+java Main -h
+```
