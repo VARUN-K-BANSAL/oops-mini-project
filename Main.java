@@ -17,13 +17,14 @@ public class Main {
                     printHelp();
                     break;
             
-            case "-a":
-                    if(args.length < 3) {
+            case "-c":
+                    if(args.length < 6) {
                         System.out.println("Invalid number of arguments entered, use help for more details");
+                        printHelp();
                         return;
                     }
 
-                    Varun.checkAdmin(args);
+                    Varun.createNewAccount(args);
                     break;
 
             case "-u":
@@ -40,7 +41,13 @@ public class Main {
         System.out.println("-------------------------------------------------------------------");
         System.out.println("Record Manager, version 1.0.0");
         System.out.println("  -h\tfor the commands help");
-        System.out.println("  -a\tfor admin access followed by username and password");
+        System.out.println("  -c\tfor creating new account");
+        System.out.println("  \t\t\tArguments");
+        System.out.println("  \t\t-Type of account SA (savings) or CA (current)");
+        System.out.println("  \t\t-Name of account holder");
+        System.out.println("  \t\t-Gender M (Male) or F (Female)");
+        System.out.println("  \t\t-Username to be used");
+        System.out.println("  \t\t-Password to be used");
         System.out.println("  -u\tfor updating password followed by username, old password then new password");
         System.out.println("-------------------------------------------------------------------");
     }

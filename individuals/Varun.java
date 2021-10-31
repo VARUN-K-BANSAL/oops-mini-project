@@ -1,11 +1,14 @@
 package individuals;
 
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+
+import utils.CurrentAccountUser;
+import utils.SavingsAccountUser;
 
 
 /**
@@ -31,65 +34,44 @@ public class Varun {
         return encryptedString;
     }
 
-    /**
-     * checking whether user have correct credentials or not
-     */
-    public static void checkAdmin(String[] args) throws IOException {
-        Path path = Paths.get("data/admin.csv");
-        if(Files.exists(path)) {
-            List<String> credentials;
-            credentials = Files.readAllLines(path)
-                            .stream()
-                            .toList();
-            
-            for (String line : credentials) {
-                String creds[] = line.split(",");
-                String userName = encryptString(args[1]);
-                String userPass = encryptString(args[2]);
-                
-                if((userName.equals(creds[0])) && (userPass.equals(creds[1]))) {
-                    System.out.println("Admin auth success");
-                    break;
-                }
-                else {
-                    System.out.println("Admin access failed");
-                    break;
-                }
-            }
+    public static void createNewAccount(String[] args) throws IOException {
+        String accType = args[1];
+        String name = args[2];
+        String gender = args[3];
+        String username = args[4];
+        String password = encryptString(args[5]);
+
+        if(accType.equals("CA")) {
+            CurrentAccountUser user = new CurrentAccountUser(name, gender, username, password, 0);
+            System.out.println(user);
+        } else if(accType.equals("SA")) {
+            SavingsAccountUser user = new SavingsAccountUser(name, gender, username, password, 0);
+            System.out.println(user);
         } else {
-            System.out.println("file does not exists");
+            System.out.println("Invalid type of Account");
         }
     }
 
-    /**
-     * updating password after confirming admin access to the app
-     */
     public static void updatePassword(String[] args) throws IOException {
-        String userName = encryptString(args[1]);
+        String username = args[1];
         String oldPassword = encryptString(args[2]);
+        String newPassword = encryptString(args[3]);
 
-        Path path = Paths.get("data/admin.csv");
-        if(Files.exists(path)) {
+        Path savingsPath = Paths.get("data/savingsAccountUser.csv");
+        if(Files.exists(savingsPath)) {
             List<String> credentials;
-            credentials = Files.readAllLines(path)
+            credentials = Files.readAllLines(savingsPath)
                             .stream()
                             .toList();
-            
+
             for (String line : credentials) {
                 String creds[] = line.split(",");
-                
-                if((userName.equals(creds[0])) && (oldPassword.equals(creds[1]))) {
-                    String newPassword = encryptString(args[3]);
-                    Files.writeString(path, creds[0]+","+newPassword, StandardCharsets.US_ASCII);
-                    System.out.println("password changed successfully");
-                }
-                else {
-                    System.out.println("Password given is wrong");
-                    break;
+
+                if((username.equals(creds[0])) && (oldPassword.equals(creds[1]))) {
+                    String newEntry = username + "," + newPassword + "," + creds[2] + "," + creds[3] + "\n";
+                    FileWriter writer = new FileWriter("data/savingsAccountUser.csv");
                 }
             }
-        } else {
-            System.out.println("file does not exists");
         }
     }
     
