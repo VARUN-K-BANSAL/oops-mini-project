@@ -15,7 +15,7 @@ public class SavingAccountUser {
         this.gender = gender;
         this.username = username;
         this.password = password;
-        this.account.setAccountNumber(Double.toString(Math.random()));
+        this.account.setAccountNumber(Account.generateAccountNumber());
         this.account.setBalance(balance);
 
         addUserToFile();
@@ -25,7 +25,6 @@ public class SavingAccountUser {
         String file = "data/savingAccountUser.csv";
         String entry = this.getUsername() +"," + this.getPassword() + "," + this.account.getAccountNumber() + "," + this.getName() + "," + this.getGender() + "\n";
         FileWriter writer = new FileWriter(file, true);
-        System.out.println(writer);
         writer.write(entry);
         writer.close();
         System.out.println("Account created successfully");

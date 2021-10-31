@@ -15,7 +15,7 @@ public class CurrentAccountUser {
         this.gender = gender;
         this.username = username;
         this.password = password;
-        this.account.setAccountNumber(Double.toString(Math.random()));
+        this.account.setAccountNumber(Account.generateAccountNumber());
         this.account.setBalance(balance);
 
         addUserToFile();
