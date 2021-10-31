@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import utils.CurrentAccountUser;
-import utils.SavingsAccountUser;
+import utils.SavingAccountUser;
 
 
 /**
@@ -45,7 +45,7 @@ public class Varun {
             CurrentAccountUser user = new CurrentAccountUser(name, gender, username, password, 0);
             System.out.println(user);
         } else if(accType.equals("SA")) {
-            SavingsAccountUser user = new SavingsAccountUser(name, gender, username, password, 0);
+            SavingAccountUser user = new SavingAccountUser(name, gender, username, password, 0);
             System.out.println(user);
         } else {
             System.out.println("Invalid type of Account");

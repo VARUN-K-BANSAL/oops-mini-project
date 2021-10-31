@@ -1,14 +1,14 @@
 package utils;
 
-public class SavingsAccount extends Account{
+public class SavingAccount extends Account{
     
-    private double interestRate = 8;
+    private double interestRate = 12;
 
-    public SavingsAccount(String accountNumber, double balance) {
+    public SavingAccount(String accountNumber, double balance) {
         super(accountNumber, balance);
     }
 
-    public SavingsAccount() {
+    public SavingAccount() {
         super("0", 0);
     }
 

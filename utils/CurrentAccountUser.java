@@ -8,7 +8,7 @@ public class CurrentAccountUser {
     private String gender;
     private String username;
     private String password;
-    private CurrentAccount account = new CurrentAccount();
+    private SavingAccount account = new SavingAccount();
 
     public CurrentAccountUser(String name, String gender, String username, String password, double balance) throws IOException {
         this.name = name;
@@ -44,11 +44,11 @@ public class CurrentAccountUser {
         this.name = name;
     }
 
-    public CurrentAccount getAccount() {
+    public SavingAccount getAccount() {
         return account;
     }
 
-    public void setAccount(CurrentAccount account) {
+    public void setAccount(SavingAccount account) {
         this.account = account;
     }
 

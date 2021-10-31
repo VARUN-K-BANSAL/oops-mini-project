@@ -3,14 +3,14 @@ package utils;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class SavingsAccountUser extends SavingsAccount{
+public class SavingAccountUser {
     private String name;
     private String gender;
     private String username;
     private String password;
-    private SavingsAccount account = new SavingsAccount();
+    private SavingAccount account = new SavingAccount();
 
-    public SavingsAccountUser(String name, String gender, String username, String password, double balance) throws IOException {
+    public SavingAccountUser(String name, String gender, String username, String password, double balance) throws IOException {
         this.name = name;
         this.gender = gender;
         this.username = username;
@@ -22,9 +22,10 @@ public class SavingsAccountUser extends SavingsAccount{
     }
 
     private void addUserToFile() throws IOException {
-        String fileName = "data/savingsAccountUser.csv";
+        String file = "data/savingAccountUser.csv";
         String entry = this.getUsername() +"," + this.getPassword() + "," + this.account.getAccountNumber() + "," + this.getName() + "," + this.getGender() + "\n";
-        FileWriter writer = new FileWriter(fileName, true);
+        FileWriter writer = new FileWriter(file, true);
+        System.out.println(writer);
         writer.write(entry);
         writer.close();
         System.out.println("Account created successfully");
@@ -36,20 +37,20 @@ public class SavingsAccountUser extends SavingsAccount{
                  + ", Account Number : " + this.account.getAccountNumber() + ", Gender : " + this.getGender() + "]";
     }
 
-    public SavingsAccount getAccount() {
-        return account;
-    }
-
-    public void setAccount(SavingsAccount account) {
-        this.account = account;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public SavingAccount getAccount() {
+        return account;
+    }
+
+    public void setAccount(SavingAccount account) {
+        this.account = account;
     }
 
     public String getGender() {
@@ -74,5 +75,5 @@ public class SavingsAccountUser extends SavingsAccount{
 
     public void setPassword(String password) {
         this.password = password;
-    }    
+    }
 }
