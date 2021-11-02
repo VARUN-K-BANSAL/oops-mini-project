@@ -45,10 +45,10 @@ public class Varun {
 
         if ((authenticateUsername(username, path1)) && (authenticateUsername(username, path2))) {
             System.out.println("Hi " + name + ", your account will be created in a moment");
-            if (accType.equals("CA")) {
+            if ((accType.equals("CA")) || (accType.equals("ca"))) {
                 CurrentAccountUser user = new CurrentAccountUser(name, gender, username, password, 0);
                 System.out.println(user);
-            } else if (accType.equals("SA")) {
+            } else if ((accType.equals("SA")) || (accType.equals("sa"))) {
                 SavingAccountUser user = new SavingAccountUser(name, gender, username, password, 0);
                 System.out.println(user);
             } else {
@@ -114,4 +114,7 @@ public class Varun {
         }
     }
 
+    public static void programInit() {
+        // will add some dummy data from csv to RDBMS as mentioned in the doc provided by sir
+    }
 }

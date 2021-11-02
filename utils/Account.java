@@ -9,6 +9,24 @@ import java.util.List;
 public abstract class Account {
     private String accountNumber;
     private double balance;
+    private String name;
+    private String gender;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public String getAccountNumber() {
         return accountNumber;
@@ -26,9 +44,11 @@ public abstract class Account {
         this.balance = balance;
     }
 
-    public Account(String accountNumber, double balance) {
+    public Account(String accountNumber, double balance, String name, String gender) {
         this.accountNumber = accountNumber;
         this.balance = balance;
+        this.name = name;
+        this.gender = gender;
     }
 
     public abstract void addInterest();

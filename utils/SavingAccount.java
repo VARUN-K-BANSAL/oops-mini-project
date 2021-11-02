@@ -2,14 +2,14 @@ package utils;
 
 public class SavingAccount extends Account{
     
-    private double interestRate = 12;
+    private double interestRate = 5;
 
-    public SavingAccount(String accountNumber, double balance) {
-        super(accountNumber, balance);
+    public SavingAccount(String accountNumber, double balance, String name, String gender) {
+        super(accountNumber, balance, name, gender);
     }
 
     public SavingAccount() {
-        super("0", 0);
+        super("", 0, "", "");
     }
 
     public double getInterestRate() {

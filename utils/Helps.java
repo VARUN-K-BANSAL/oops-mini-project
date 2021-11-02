@@ -6,6 +6,7 @@ public class Helps {
         System.out.println("-------------------------------------------------------------------");
         System.out.println("Record Manager, version 1.0.0");
         System.out.println("  -h\tfor the commands help");
+        System.out.println("--init\tfor initialising the program");
         createNewAccountHelp();
         updatePasswordHelp();
         System.out.println("-------------------------------------------------------------------");
@@ -24,8 +25,8 @@ public class Helps {
     public static void updatePasswordHelp() {
         System.out.println("  -u\tfor updating password");
         System.out.println("  \t\t\tArguments");
-        System.out.println("  \t\t1 .Username");
-        System.out.println("  \t\t2 .Current password");
-        System.out.println("  \t\t3 .New password");
+        System.out.println("  \t\t1. Username");
+        System.out.println("  \t\t2. Current password");
+        System.out.println("  \t\t3. New password");
     }
 }

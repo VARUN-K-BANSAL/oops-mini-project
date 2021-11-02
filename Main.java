@@ -37,6 +37,10 @@ public class Main {
                     Varun.updatePassword(args);
                     break;
 
+            case "--init":
+                    Varun.programInit();
+                    break;
+
             default:
                     Helps.printHelp();
                     break;

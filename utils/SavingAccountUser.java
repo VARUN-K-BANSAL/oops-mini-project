@@ -4,26 +4,24 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class SavingAccountUser {
-    private String name;
-    private String gender;
     private String username;
     private String password;
     private SavingAccount account = new SavingAccount();
 
     public SavingAccountUser(String name, String gender, String username, String password, double balance) throws IOException {
-        this.name = name;
-        this.gender = gender;
         this.username = username;
         this.password = password;
         this.account.setAccountNumber(Account.generateAccountNumber());
         this.account.setBalance(balance);
+        this.account.setName(name);
+        this.account.setGender(gender);
 
         addUserToFile();
     }
 
     private void addUserToFile() throws IOException {
         String file = "data/savingAccountUser.csv";
-        String entry = this.getUsername() +"," + this.getPassword() + "," + this.account.getAccountNumber() + "," + this.getName() + "," + this.getGender() + "\n";
+        String entry = this.getUsername() +"," + this.getPassword() + "," + this.account.getAccountNumber() + "," + this.account.getName() + "," + this.account.getGender() + "\n";
         FileWriter writer = new FileWriter(file, true);
         writer.write(entry);
         writer.close();
@@ -32,16 +30,8 @@ public class SavingAccountUser {
 
     @Override
     public String toString() {
-        return "[Name : " + this.getName() + ", UserName : " + this.getUsername()
-                 + ", Account Number : " + this.account.getAccountNumber() + ", Gender : " + this.getGender() + "]";
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return "[Name : " + this.account.getName() + ", UserName : " + this.getUsername()
+                 + ", Account Number : " + this.account.getAccountNumber() + ", Gender : " + this.account.getGender() + "]";
     }
 
     public SavingAccount getAccount() {
@@ -50,14 +40,6 @@ public class SavingAccountUser {
 
     public void setAccount(SavingAccount account) {
         this.account = account;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public String getUsername() {
