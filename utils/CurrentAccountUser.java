@@ -3,10 +3,13 @@ package utils;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import utils.helpers.Account;
+import utils.helpers.CurrentAccount;
+
 public class CurrentAccountUser {
     private String username;
     private String password;
-    private SavingAccount account = new SavingAccount();
+    private CurrentAccount account = new CurrentAccount();
 
     public CurrentAccountUser(String name, String gender, String username, String password, double balance) throws IOException {
         this.username = username;
@@ -34,11 +37,11 @@ public class CurrentAccountUser {
                  + ", Account Number : " + this.account.getAccountNumber() + ", Gender : " + this.account.getGender() + "]";
     }
 
-    public SavingAccount getAccount() {
+    public CurrentAccount getAccount() {
         return account;
     }
 
-    public void setAccount(SavingAccount account) {
+    public void setAccount(CurrentAccount account) {
         this.account = account;
     }
 

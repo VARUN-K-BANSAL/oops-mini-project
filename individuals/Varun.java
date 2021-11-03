@@ -5,15 +5,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 import utils.CurrentAccountUser;
 import utils.SavingAccountUser;
+import utils.database.ConnectionFactory;
+import utils.database.DataBaseModifier;
 
-/**
- * change to sub packages with admin class
- */
 public class Varun {
 
     final private static int KEY = 5;
@@ -40,34 +42,37 @@ public class Varun {
         String gender = args[3];
         String username = args[4];
         String password = encryptString(args[5]);
-        Path path1 = Paths.get("data/savingAccountUser.csv");
-        Path path2 = Paths.get("data/currentAccountUser.csv");
+        String openingBalance = args[6];
 
-        if ((authenticateUsername(username, path1)) && (authenticateUsername(username, path2))) {
+        if(authenticateUsername(username)) {
             System.out.println("Hi " + name + ", your account will be created in a moment");
-            if ((accType.equals("CA")) || (accType.equals("ca"))) {
-                CurrentAccountUser user = new CurrentAccountUser(name, gender, username, password, 0);
-                System.out.println(user);
-            } else if ((accType.equals("SA")) || (accType.equals("sa"))) {
-                SavingAccountUser user = new SavingAccountUser(name, gender, username, password, 0);
-                System.out.println(user);
+            if(accType.equals("CA")) {
+                CurrentAccountUser user = new CurrentAccountUser(name, gender, username, password, Integer.valueOf(openingBalance));
+                DataBaseModifier.addDataToAccountTable(user);
+            } else if(accType.equals("SA")) {
+                SavingAccountUser user = new SavingAccountUser(name, gender, username, password, Integer.valueOf(openingBalance));
+                DataBaseModifier.addDataToAccountTable(user);
             } else {
-                System.out.println("Invalid type of Account");
+                System.out.println("Invalid type of account entered");
             }
         } else {
             System.out.println("This username already exists please enter another username");
         }
     }
 
-    private static boolean authenticateUsername(String username, Path path) throws IOException {
-        if (Files.exists(path)) {
-            List<String> lines = Files.readAllLines(path);
-            for (String line : lines) {
-                String creds[] = line.split(",");
-                if (username.equals(creds[0])) {
+    private static boolean authenticateUsername(String username) {
+        Connection con = ConnectionFactory.getConnection();
+        String query = "SELECT * FROM account";
+        try(PreparedStatement stmt = con.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                if(rs.getString("username").equals(username)) {
                     return false;
                 }
             }
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
         }
         return true;
     }
@@ -112,9 +117,5 @@ public class Varun {
         } else {
             System.out.println("File does not exist error");
         }
-    }
-
-    public static void programInit() {
-        // will add some dummy data from csv to RDBMS as mentioned in the doc provided by sir
     }
 }

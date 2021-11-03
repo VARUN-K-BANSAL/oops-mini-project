@@ -1,4 +1,4 @@
-package utils;
+package utils.helpers;
 
 public class Helps {
 
@@ -16,10 +16,11 @@ public class Helps {
         System.out.println("  -c\tfor creating new account");
         System.out.println("  \t\t\tArguments");
         System.out.println("  \t\t1. Type of account SA (savings) or CA (current)");
-        System.out.println("  \t\t2. Name of account holder");
+        System.out.println("  \t\t2. Name of account holder (use \"\" if there is a space in name)");
         System.out.println("  \t\t3. Gender M (Male) or F (Female)");
         System.out.println("  \t\t4. Username to be used");
         System.out.println("  \t\t5. Password to be used");
+        System.out.println("  \t\t6. Opening balance");
     }
 
     public static void updatePasswordHelp() {

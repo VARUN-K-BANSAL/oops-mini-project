@@ -1,10 +1,11 @@
-package utils;
+package utils.helpers;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import utils.database.ConnectionFactory;
 
 public abstract class Account {
     private String accountNumber;
@@ -56,22 +57,26 @@ public abstract class Account {
     public static String generateAccountNumber() throws IOException {
         long accNumber = Math.round(Math.random() * 1000000 + 1);
         String acc = Long.toString(accNumber);
-        while(!((checkAccountNumber(acc, Paths.get("data/savingAccountUser.csv"))) && checkAccountNumber(acc, Paths.get("data/currentAccountUser.csv")))) {
+        while(!(isValidAccountNumber(acc))) {
             accNumber = Math.round(Math.random() * 1000000 + 1);
             acc = Long.toString(accNumber);
         }
         return acc;
     }
 
-    private static boolean checkAccountNumber(String acc, Path path) throws IOException {
-        if (Files.exists(path)) {
-            List<String> lines = Files.readAllLines(path);
-            for (String line : lines) {
-                String creds[] = line.split(",");
-                if (acc.equals(creds[2])) {
-                    return false;
-                }
+    private static boolean isValidAccountNumber(String acc) {
+        Connection con = ConnectionFactory.getConnection();
+        String query = "SELECT * FROM account";
+        try(PreparedStatement stmt = con.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                 if(rs.getString("account_number").equals(acc)) {
+                     return false;
+                 }
             }
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
         }
         return true;
     }

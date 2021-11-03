@@ -1,6 +1,7 @@
 import java.io.IOException;
 import individuals.Varun;
-import utils.Helps;
+import utils.database.DatabaseCreator;
+import utils.helpers.Helps;
 
 /**
  * Main
@@ -19,7 +20,7 @@ public class Main {
                     break;
             
             case "-c":
-                    if(args.length < 6) {
+                    if(args.length < 7) {
                         System.out.println("Invalid number of arguments entered, use help for more details");
                         Helps.createNewAccountHelp();
                         return;
@@ -38,7 +39,7 @@ public class Main {
                     break;
 
             case "--init":
-                    Varun.programInit();
+                    DatabaseCreator.programInit(args);
                     break;
 
             default:
