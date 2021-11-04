@@ -1,6 +1,7 @@
 import java.io.IOException;
 import individuals.Varun;
 import utils.database.DatabaseCreator;
+import utils.database.SearchDataBase;
 import utils.helpers.Helps;
 
 /**
@@ -37,6 +38,20 @@ public class Main {
                     }
                     Varun.updatePassword(args);
                     break;
+
+            case "-su":
+                    if(args.length < 2) {
+                        System.out.println("Invalid number of arguments for searching");
+                    }
+                    SearchDataBase.searchUser(args[1]);
+                    return;
+            
+            case "-sa":
+                    if(args.length < 2) {
+                        System.out.println("Invalid number of arguments for searching");
+                    }
+                    SearchDataBase.searchUserByAccountNumber(args[1]);
+                    return;
 
             case "--init":
                     DatabaseCreator.programInit(args);

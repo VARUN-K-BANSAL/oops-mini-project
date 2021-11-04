@@ -81,7 +81,7 @@ public class DatabaseCreator {
 
         final String transactionTableQuery = "CREATE TABLE transaction(sender VARCHAR(25) NOT NULL,"
                                             + "receiver VARCHAR(25) NOT NULL,"
-                                            + "transaction_id VARCHAR(10) NOT NULL,"
+                                            + "transaction_id VARCHAR(10) PRIMARY KEY AUTO_INCREMENT,"
                                             + "transaction_date DATETIME NOT NULL,"
                                             + "amount INT NOT NULL)";
 

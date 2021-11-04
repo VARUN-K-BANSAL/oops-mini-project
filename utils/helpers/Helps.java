@@ -6,9 +6,13 @@ public class Helps {
         System.out.println("-------------------------------------------------------------------");
         System.out.println("Record Manager, version 1.0.0");
         System.out.println("  -h\tfor the commands help");
-        System.out.println("--init\tfor initialising the program");
-        createNewAccountHelp();
-        updatePasswordHelp();
+        System.out.println("--init\tfor initialising the program followed by your MYSQL username and password");
+        System.out.println("  -c\tfor creating a new account");
+        System.out.println("  -u\tfor updating password");
+        System.out.println("  -su\tfor searching details using username");
+        System.out.println("  -sa\tfor searching using account number");
+        // createNewAccountHelp();
+        // updatePasswordHelp();
         System.out.println("-------------------------------------------------------------------");
     }
 

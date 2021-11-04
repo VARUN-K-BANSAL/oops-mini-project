@@ -1,15 +1,10 @@
 package individuals;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLException;
 
 import utils.CurrentAccountUser;
 import utils.SavingAccountUser;
@@ -62,7 +57,7 @@ public class Varun {
 
     private static boolean authenticateUsername(String username) {
         Connection con = ConnectionFactory.getConnection();
-        String query = "SELECT * FROM account";
+        String query = "SELECT username FROM account";
         try(PreparedStatement stmt = con.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
@@ -82,40 +77,25 @@ public class Varun {
         String oldPassword = encryptString(args[2]);
         String newPassword = encryptString(args[3]);
 
-        Path savingPath = Paths.get("data/savingAccountUser.csv");
-        if (Files.exists(savingPath)) {
-            List<String> credentials = Files.readAllLines(savingPath);
-            List<String> newCredentials = new ArrayList<String>();
-
-            boolean isValidUser = false;
-            for (String line : credentials) {
-                String creds[] = line.split(",");
-                if ((username.equals(creds[0])) && (oldPassword.equals(creds[1]))) {
-                    isValidUser = true;
-                    String entry = creds[0] + "," + newPassword + "," + creds[2] + "," + creds[3] + "," + creds[4];
-                    newCredentials.add(entry);
-                } else {
-                    newCredentials.add(line);
+        Connection con = ConnectionFactory.getConnection();
+        String query = "SELECT * FROM account";
+        try(PreparedStatement stmt = con.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                if((rs.getString("username").equals(username)) && (rs.getString("password").equals(oldPassword))) {
+                    DataBaseModifier.updatePassword(username, newPassword);
+                    break;
                 }
             }
-
-            if (isValidUser) {
-                String file = "data/savingAccountUser.csv";
-                FileWriter temp = new FileWriter(file, false);
-                temp.write("");
-                temp.close();
-                FileWriter writer = new FileWriter(file, true);
-                for (String line : newCredentials) {
-                    line = line + "\n";
-                    writer.write(line);
-                }
-                writer.close();
-            } else {
-                System.out.println("Invalid Username or password");
-            }
-
-        } else {
-            System.out.println("File does not exist error");
+        } catch(Exception e) {
+            System.out.println("Some error occurred while accessing the database");
+            // e.printStackTrace();
+        }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
         }
     }
 }
