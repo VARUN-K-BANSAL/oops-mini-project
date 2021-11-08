@@ -76,12 +76,13 @@ public class DatabaseCreator {
             stmt.executeUpdate();
             // System.out.println(rowsAffected + " rows affected");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Some error occurred while creating the tables");
+            // e.printStackTrace();
         }
 
         final String transactionTableQuery = "CREATE TABLE transaction(sender VARCHAR(25) NOT NULL,"
                                             + "receiver VARCHAR(25) NOT NULL,"
-                                            + "transaction_id VARCHAR(10) PRIMARY KEY AUTO_INCREMENT,"
+                                            + "transaction_id INT PRIMARY KEY AUTO_INCREMENT,"
                                             + "transaction_date DATETIME NOT NULL,"
                                             + "amount INT NOT NULL)";
 
@@ -91,7 +92,8 @@ public class DatabaseCreator {
             System.out.println("Tables Created....");
             // System.out.println(rowsAffected);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Some error occurred while creating the tables");
+            // e.printStackTrace();
         }
         try {
             con.close();

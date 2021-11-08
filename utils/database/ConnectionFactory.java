@@ -29,12 +29,12 @@ public class ConnectionFactory {
                 con = DriverManager.getConnection(URL, connectionProperties);
                 return con;
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Some internal error occurred");
+                // e.printStackTrace();
             }
-
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+            System.out.println("Some internal error occurred");
+            // e1.printStackTrace();
         }
         return null;
     }
@@ -60,7 +60,8 @@ public class ConnectionFactory {
             connectionProperties.put("password", password);
             con = DriverManager.getConnection(URLWithoutDatabase, connectionProperties);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Some internal error occurred");
+            // e.printStackTrace();
         }
 
         return con;

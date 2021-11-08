@@ -47,6 +47,12 @@ public class Transaction {
         this.receiverAccount = receiverAccount;
     }
 
+    /**
+     * string for getting Date Time
+     * DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now));
+     */
     public Transaction(String transactionId, String date, int amount, Account senderAccount,
             Account receiverAccount) {
         this.transactionId = transactionId;

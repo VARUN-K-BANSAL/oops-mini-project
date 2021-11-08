@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import utils.database.ConnectionFactory;
 
@@ -81,13 +82,60 @@ public abstract class Account {
         return true;
     }
 
-    public boolean withdraw(int amount) {
-        if(this.balance > amount) {
-            this.setBalance(this.getBalance() - amount);
-            return true;
-        } else {
-            System.out.println("No enough balance | Available balance : " + this.getBalance());
-            return false;
+    /**Need modification just started now 
+     * @throws SQLException */
+    public boolean withdraw(String[] creds, int amount) throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        if(authUser(creds, con)) {
+            double bal = checkBalance(creds, con);
+            if(bal > amount) {
+                bal = bal - amount;
+                String query = "UPDATE account SET account_balance = "
+                                + bal + " WHERE username = "
+                                + creds[0] + " AND password = " + creds[1];
+
+                try(PreparedStatement stmt = con.prepareStatement(query)) {
+                    try {
+                        stmt.executeUpdate();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return true;
+            }
         }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private double checkBalance(String[] creds, Connection con) {
+        String query = "SELECT * FROM account WHERE username = " + creds[0] + " AND password = " + creds[1];
+        try(PreparedStatement statement = con.prepareStatement(query)) {
+            ResultSet rs = statement.executeQuery();
+            return rs.getDouble("account_balance");
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private boolean authUser(String[] creds, Connection con) {
+        String query = "SELECT * FROM account";
+        try(PreparedStatement statement = con.prepareStatement(query)) {
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                if(rs.getString("username").equals(creds[0]) 
+                    && rs.getString("password").equals(creds[1])) {
+                    return true;
+                }
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
