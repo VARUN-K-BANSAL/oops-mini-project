@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import individuals.Varun;
+
 public class SearchDataBase {
     public static void searchUser(String username) {
         Connection con = ConnectionFactory.getConnection();
@@ -24,8 +26,11 @@ public class SearchDataBase {
             }
             System.out.println("Record not found");
         } catch(Exception e) {
-            System.out.println("Some error occurred while accessing the database");
-            // e.printStackTrace();
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some error occurred while accessing the database");
+            }
         }
         try {
             con.close();
@@ -52,8 +57,11 @@ public class SearchDataBase {
             }
             System.out.println("Record not found");
         } catch(Exception e) {
-            System.out.println("Some error occurred while accessing the database");
-            // e.printStackTrace();
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some error occurred while accessing the database");
+            }
         }
         try {
             con.close();

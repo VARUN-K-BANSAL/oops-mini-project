@@ -29,12 +29,15 @@ public class CurrentAccountUser {
         writer.write(entry);
         writer.close();
         System.out.println("Account created successfully");
+        System.out.println(this);
     }
 
     @Override
     public String toString() {
-        return "[Name : " + this.account.getName() + ", UserName : " + this.getUsername()
-                 + ", Account Number : " + this.account.getAccountNumber() + ", Gender : " + this.account.getGender() + "]";
+        return "Name : " + this.account.getName()
+                 + "\nUserName : " + this.getUsername()
+                 + "\nAccount Number : " + this.account.getAccountNumber()
+                 + ", Gender : " + this.account.getGender() + "\n";
     }
 
     public CurrentAccount getAccount() {

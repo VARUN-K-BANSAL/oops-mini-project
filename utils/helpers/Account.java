@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import individuals.Varun;
 import utils.database.ConnectionFactory;
 
 public abstract class Account {
@@ -76,7 +77,11 @@ public abstract class Account {
                  }
             }
         } catch(Exception e) {
-            e.printStackTrace();
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occurred");
+            }
             return false;
         }
         return true;
@@ -98,7 +103,11 @@ public abstract class Account {
                     try {
                         stmt.executeUpdate();
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        if(Varun.inProduction) {
+                            e.printStackTrace();
+                        } else {
+                            System.out.println("Some internal error occurred");
+                        }
                     }
                 }
                 return true;
@@ -118,7 +127,11 @@ public abstract class Account {
             ResultSet rs = statement.executeQuery();
             return rs.getDouble("account_balance");
         } catch(Exception e) {
-            e.printStackTrace();
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occurred");
+            }
         }
         return 0;
     }
@@ -134,7 +147,11 @@ public abstract class Account {
                 }
             }
         } catch(Exception e) {
-            e.printStackTrace();
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occurred");
+            }
         }
         return false;
     }

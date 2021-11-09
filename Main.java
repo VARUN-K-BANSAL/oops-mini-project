@@ -8,7 +8,6 @@ import utils.helpers.Helps;
  * Main
  */
 public class Main {
-
     public static void main(String[] args) throws IOException {
         if(args.length == 0) {
             Helps.printHelp();

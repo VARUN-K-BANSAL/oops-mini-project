@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import individuals.Varun;
 import utils.CurrentAccountUser;
 import utils.SavingAccountUser;
 
@@ -22,8 +23,11 @@ public class DataBaseModifier {
             stmt.setString(7, data[6]);
             stmt.executeUpdate();
         } catch (Exception e) {
-            System.out.println("Unable to add data to the database....");
-            // e.printStackTrace();
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Unable to add data to the database....");
+            }
             return;
         }
     }
@@ -64,7 +68,11 @@ public class DataBaseModifier {
                 System.out.println("Unable to update password");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occured");
+            }
         }
         try {
             con.close();

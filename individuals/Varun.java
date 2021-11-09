@@ -12,6 +12,7 @@ import utils.database.ConnectionFactory;
 import utils.database.DataBaseModifier;
 
 public class Varun {
+    public static boolean inProduction = true;
 
     final private static int KEY = 5;
     final private static String ALPHA = "qwertyuiopasdfghjklzxcvbnm";
@@ -66,7 +67,11 @@ public class Varun {
                 }
             }
         } catch(Exception e) {
-            e.printStackTrace();
+            if(inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occurred");
+            }
             return false;
         }
         return true;
@@ -88,8 +93,11 @@ public class Varun {
                 }
             }
         } catch(Exception e) {
-            System.out.println("Some error occurred while accessing the database");
-            // e.printStackTrace();
+            if(inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some error occurred while accessing the database");
+            }
         }
         try {
             con.close();

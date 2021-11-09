@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import individuals.Varun;
+
 public class DatabaseCreator {
     public static void programInit(String args[]) {
         final String databaseName = "oops_mini_project_group_19_2021";
@@ -24,8 +26,11 @@ public class DatabaseCreator {
             createTables();
             addDummyDataToAccountDataBase();
         } catch (Exception e) {
-            System.out.println("Unexpected error occur in creating database....");
-            // e.printStackTrace();
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Unexpected error occur in creating database....");
+            }
         }
     }
 
@@ -41,7 +46,11 @@ public class DatabaseCreator {
                 }
                 System.out.println("Dummy data added....");
             } catch (IOException e) {
-                System.out.println("Unable to read the User data file");
+                if(Varun.inProduction) {
+                    e.printStackTrace();
+                } else {
+                    System.out.println("Unable to read the User data file");
+                }
             }
         }
     }
@@ -52,7 +61,11 @@ public class DatabaseCreator {
         try(PreparedStatement stmt = con.prepareStatement(dropDataBaseQuery)) {
             stmt.executeUpdate();
         } catch (Exception e) {
-            // e.printStackTrace();
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occurred");
+            }
         }
         try {
             con.close();
@@ -63,7 +76,7 @@ public class DatabaseCreator {
 
     private static void createTables() {
         final Connection con = ConnectionFactory.getConnection();
-        final String accountTableQuery = "CREATE TABLE account(username VARCHAR(25) NOT NULL,"
+        final String accountTableQuery = "CREATE TABLE account(username VARCHAR(25) NOT NULL PRIMARY KEY,"
                                         + "password VARCHAR(10) NOT NULL,"
                                         + "account_number VARCHAR(10) NOT NULL,"
                                         + "account_type VARCHAR(5) NOT NULL,"
@@ -76,15 +89,19 @@ public class DatabaseCreator {
             stmt.executeUpdate();
             // System.out.println(rowsAffected + " rows affected");
         } catch (Exception e) {
-            System.out.println("Some error occurred while creating the tables");
-            // e.printStackTrace();
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some error occurred while creating the tables");
+            }
         }
 
-        final String transactionTableQuery = "CREATE TABLE transaction(sender VARCHAR(25) NOT NULL,"
+        final String transactionTableQuery = "CREATE TABLE transaction(sender VARCHAR(25) NOT NULL PRIMARY KEY,"
                                             + "receiver VARCHAR(25) NOT NULL,"
-                                            + "transaction_id INT PRIMARY KEY AUTO_INCREMENT,"
+                                            + "transaction_id INT,"
                                             + "transaction_date DATETIME NOT NULL,"
-                                            + "amount INT NOT NULL)";
+                                            + "amount INT NOT NULL,"
+                                            + "FOREIGN KEY(sender) REFERENCES account(username))";
 
         try(PreparedStatement stmt = con.prepareStatement(transactionTableQuery)) {
             // int rowsAffected = 
@@ -92,13 +109,16 @@ public class DatabaseCreator {
             System.out.println("Tables Created....");
             // System.out.println(rowsAffected);
         } catch (Exception e) {
-            System.out.println("Some error occurred while creating the tables");
-            // e.printStackTrace();
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some error occurred while creating the tables");
+            }
         }
         try {
             con.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
     }
 }
