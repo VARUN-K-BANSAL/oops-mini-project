@@ -12,6 +12,10 @@ import java.util.List;
 
 import individuals.Varun;
 
+/**
+ * NOTE : If you make changes to this DatabaseCreator class you might have to reinitialise the program
+ */
+
 public class DatabaseCreator {
     public static void programInit(String args[]) {
         final String databaseName = "oops_mini_project_group_19_2021";
@@ -24,7 +28,7 @@ public class DatabaseCreator {
             System.out.println("Database created....");
             // con.close();
             createTables();
-            addDummyDataToAccountDataBase();
+            addDummyDataToDataBase();
         } catch (Exception e) {
             if(Varun.inProduction) {
                 e.printStackTrace();
@@ -34,7 +38,7 @@ public class DatabaseCreator {
         }
     }
 
-    private static void addDummyDataToAccountDataBase() {
+    private static void addDummyDataToDataBase() {
         Path path = Paths.get("data/initialUserData.csv");
         if(Files.exists(path)) {
             List<String> lines;
@@ -85,9 +89,7 @@ public class DatabaseCreator {
                                         + "gender VARCHAR(2) NOT NULL)";
 
         try(PreparedStatement stmt = con.prepareStatement(accountTableQuery)) {
-            // int rowsAffected = 
             stmt.executeUpdate();
-            // System.out.println(rowsAffected + " rows affected");
         } catch (Exception e) {
             if(Varun.inProduction) {
                 e.printStackTrace();
@@ -96,18 +98,17 @@ public class DatabaseCreator {
             }
         }
 
-        final String transactionTableQuery = "CREATE TABLE transaction(sender VARCHAR(25) NOT NULL PRIMARY KEY,"
-                                            + "receiver VARCHAR(25) NOT NULL,"
-                                            + "transaction_id INT,"
+        final String transactionTableQuery = "CREATE TABLE transaction(sender VARCHAR(10) NOT NULL,"
+                                            + "receiver VARCHAR(10) NOT NULL,"
+                                            + "transaction_id INT NOT NULL AUTO_INCREMENT,"
                                             + "transaction_date DATETIME NOT NULL,"
                                             + "amount INT NOT NULL,"
+                                            + "PRIMARY KEY(transaction_id),"
                                             + "FOREIGN KEY(sender) REFERENCES account(username))";
 
         try(PreparedStatement stmt = con.prepareStatement(transactionTableQuery)) {
-            // int rowsAffected = 
             stmt.executeUpdate();
             System.out.println("Tables Created....");
-            // System.out.println(rowsAffected);
         } catch (Exception e) {
             if(Varun.inProduction) {
                 e.printStackTrace();

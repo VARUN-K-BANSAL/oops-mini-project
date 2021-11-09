@@ -20,7 +20,7 @@ public class Varun {
     /**
      * method for encrypting strings for storing username and passwords
      */
-    private static String encryptString(String inputString) {
+    public static String encryptString(String inputString) {
         String encryptedString = "";
         for (int i = 0; i < inputString.length(); i++) {
             if (inputString.charAt(i) != ' ') {
@@ -33,7 +33,7 @@ public class Varun {
     }
 
     public static void createNewAccount(String[] args) throws IOException {
-        String accType = args[1];
+        String accType = args[1].toUpperCase();
         String name = args[2];
         String gender = args[3];
         String username = args[4];
@@ -45,9 +45,13 @@ public class Varun {
             if(accType.equals("CA")) {
                 CurrentAccountUser user = new CurrentAccountUser(name, gender, username, password, Integer.valueOf(openingBalance));
                 DataBaseModifier.addDataToAccountTable(user);
+                System.out.println("Account created successfully");
+                System.out.println(user);
             } else if(accType.equals("SA")) {
                 SavingAccountUser user = new SavingAccountUser(name, gender, username, password, Integer.valueOf(openingBalance));
                 DataBaseModifier.addDataToAccountTable(user);
+                System.out.println("Account created successfully");
+                System.out.println(user);
             } else {
                 System.out.println("Invalid type of account entered");
             }

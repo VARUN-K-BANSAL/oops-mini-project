@@ -1,6 +1,5 @@
 package utils.helpers;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,7 +55,7 @@ public abstract class Account {
 
     public abstract void addInterest();
 
-    public static String generateAccountNumber() throws IOException {
+    public static String generateAccountNumber() {
         long accNumber = Math.round(Math.random() * 1000000 + 1);
         String acc = Long.toString(accNumber);
         while(!(isValidAccountNumber(acc))) {
@@ -87,8 +86,9 @@ public abstract class Account {
         return true;
     }
 
-    /**Need modification just started now 
-     * @throws SQLException */
+    /*
+     * Need modification just started now 
+     */
     public boolean withdraw(String[] creds, int amount) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         if(authUser(creds, con)) {

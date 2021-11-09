@@ -1,6 +1,5 @@
 package utils;
 
-import java.io.FileWriter;
 import java.io.IOException;
 
 import utils.helpers.Account;
@@ -18,26 +17,16 @@ public class SavingAccountUser {
         this.account.setBalance(balance);
         this.account.setName(name);
         this.account.setGender(gender);
-
-        addUserToFile();
-    }
-
-    private void addUserToFile() throws IOException {
-        String file = "data/savingAccountUser.csv";
-        String entry = this.getUsername() +"," + this.getPassword() + "," + this.account.getAccountNumber() + "," + this.account.getName() + "," + this.account.getGender() + "\n";
-        FileWriter writer = new FileWriter(file, true);
-        writer.write(entry);
-        writer.close();
-        System.out.println("Account created successfully");
-        System.out.println(this);
     }
 
     @Override
     public String toString() {
-        return "Name : " + this.account.getName()
+        return "-------------------------------------------------------------------------\n" 
+                 +"Name : " + this.account.getName()
                  + "\nUserName : " + this.getUsername()
                  + "\nAccount Number : " + this.account.getAccountNumber()
-                 + "\nGender : " + this.account.getGender() + "\n";
+                 + "\nGender : " + this.account.getGender() 
+                 + "\n-------------------------------------------------------------------------";
     }
 
     public SavingAccount getAccount() {

@@ -18,7 +18,7 @@ public class DataBaseModifier {
             stmt.setString(2, data[1]);
             stmt.setString(3, data[2]);
             stmt.setString(4, data[3]);
-            stmt.setString(5, data[4]);
+            stmt.setString(5, data[4].toLowerCase());
             stmt.setString(6, data[5]);
             stmt.setString(7, data[6]);
             stmt.executeUpdate();
@@ -72,6 +72,28 @@ public class DataBaseModifier {
                 e.printStackTrace();
             } else {
                 System.out.println("Some internal error occured");
+            }
+        }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            // e.printStackTrace();
+        }
+    }
+
+    public static void deleteAccount(String[] args) {
+        Connection con = ConnectionFactory.getConnection();
+        String query = "DELETE FROM account WHERE username = ? AND password = ?";
+        try(PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, args[1]);
+            stmt.setString(2, Varun.encryptString(args[2]));
+            stmt.executeUpdate();
+            System.out.println("Account deleted successfully");
+        } catch (Exception e) {
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occurred");
             }
         }
         try {

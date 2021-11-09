@@ -10,10 +10,19 @@ public class Helps {
         System.out.println("  -u\tfor updating password");
         System.out.println("  -su\tfor searching details using username");
         System.out.println("  -sa\tfor searching using account number");
+        System.out.println("  -sn\tfor searching details using name");
+        System.out.println("  -d\tfor deleting the account");
         System.out.println("  -h\tfor the commands help");
         // createNewAccountHelp();
         // updatePasswordHelp();
         System.out.println("-------------------------------------------------------------------");
+    }
+
+    public static void deleteAccountHelp() {
+        System.out.println("  -d\tfor deleting the account");
+        System.out.println("  \t\t\tArguments");
+        System.out.println("  \t\t1. username of the account");
+        System.out.println("  \t\t2. Password of the account");
     }
 
     public static void createNewAccountHelp() {
@@ -33,5 +42,23 @@ public class Helps {
         System.out.println("  \t\t1. Username");
         System.out.println("  \t\t2. Current password");
         System.out.println("  \t\t3. New password");
+    }
+
+    public static void searchUsingAccountNumberHelp() {
+        System.out.println("  -sa\tfor searching details using account number");
+        System.out.println("  \t\t\tArguments");
+        System.out.println("  \t\t1. Account number of the account");
+    }
+    
+    public static void searchUsingUserNameHelp() {
+        System.out.println("  -su\tfor searching details using username");
+        System.out.println("  \t\t\tArguments");
+        System.out.println("  \t\t1. Username of the account");
+    }
+
+    public static void searchUsingNameHelp() {
+        System.out.println("  -su\tfor searching details using name");
+        System.out.println("  \t\t\tArguments");
+        System.out.println("  \t\t1. Name of the account holder");
     }
 }
