@@ -22,7 +22,7 @@ public class DatabaseCreator {
         final String createDatabaseQuery = "CREATE DATABASE " + databaseName;
 
         Connection con = ConnectionFactory.getConnection(args[1], args[2]);
-        dropDataBaseIfExists(databaseName);
+        dropDataBaseIfExists(databaseName, args);
         try(PreparedStatement statement = con.prepareStatement(createDatabaseQuery)) {
             statement.execute(createDatabaseQuery);
             System.out.println("Database created....");
@@ -59,9 +59,9 @@ public class DatabaseCreator {
         }
     }
 
-    private static void dropDataBaseIfExists(String databaseName) {
-        final Connection con = ConnectionFactory.getConnection();
-        final String dropDataBaseQuery = "DROP DATABASE " + databaseName;
+    private static void dropDataBaseIfExists(String databaseName, String args[]) {
+        Connection con = ConnectionFactory.getConnection(args[1], args[2]);
+        final String dropDataBaseQuery = "DROP DATABASE IF EXISTS " + databaseName;
         try(PreparedStatement stmt = con.prepareStatement(dropDataBaseQuery)) {
             stmt.executeUpdate();
         } catch (Exception e) {

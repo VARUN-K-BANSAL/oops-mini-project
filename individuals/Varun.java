@@ -12,8 +12,15 @@ import utils.database.ConnectionFactory;
 import utils.database.DataBaseModifier;
 
 public class Varun {
-    public static boolean inProduction = true;
+    /**
+     * While submitting make sure to make this inProduction = false
+     * which will restrict the errors means it will not show the descriptive errors
+     */
+    final public static boolean inProduction = true;
 
+    /**
+     * Key and String for encrypting passwords
+     */
     final private static int KEY = 5;
     final private static String ALPHA = "qwertyuiopasdfghjklzxcvbnm";
 
@@ -32,6 +39,9 @@ public class Varun {
         return encryptedString;
     }
 
+    /**
+     * Method for creating new account
+     */
     public static void createNewAccount(String[] args) throws IOException {
         String accType = args[1].toUpperCase();
         String name = args[2];
@@ -60,6 +70,9 @@ public class Varun {
         }
     }
 
+    /**
+     * Method for authenticating username
+     */
     private static boolean authenticateUsername(String username) {
         Connection con = ConnectionFactory.getConnection();
         String query = "SELECT username FROM account";
@@ -81,6 +94,9 @@ public class Varun {
         return true;
     }
 
+    /**
+     * Method for updating password
+     */
     public static void updatePassword(String[] args) throws IOException {
         String username = args[1];
         String oldPassword = encryptString(args[2]);

@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.util.List;
 import java.util.Properties;
 
+import individuals.Varun;
+
 public class ConnectionFactory {
     private static final String URLWithoutDatabase = "jdbc:mysql://localhost:3306/";
     private static final String URL = "jdbc:mysql://localhost:3306/oops_mini_project_group_19_2021";
@@ -29,12 +31,18 @@ public class ConnectionFactory {
                 con = DriverManager.getConnection(URL, connectionProperties);
                 return con;
             } catch (Exception e) {
-                System.out.println("Some internal error occurred");
-                // e.printStackTrace();
+                if(Varun.inProduction) {
+                    e.printStackTrace();
+                } else {
+                    System.out.println("Some internal error occurred");
+                }
             }
         } catch (IOException e1) {
-            System.out.println("Some internal error occurred");
-            // e1.printStackTrace();
+            if(Varun.inProduction) {
+                e1.printStackTrace();
+            } else {
+                System.out.println("Some internal error occurred");
+            }
         }
         return null;
     }
@@ -60,8 +68,11 @@ public class ConnectionFactory {
             connectionProperties.put("password", password);
             con = DriverManager.getConnection(URLWithoutDatabase, connectionProperties);
         } catch (Exception e) {
-            System.out.println("Some internal error occurred");
-            // e.printStackTrace();
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occurred");
+            }
         }
 
         return con;
@@ -73,7 +84,11 @@ public class ConnectionFactory {
             try {
                 Files.writeString(path, username2 + "," + password2, StandardCharsets.US_ASCII);
             } catch (IOException e) {
-                e.printStackTrace();
+                if(Varun.inProduction) {
+                    e.printStackTrace();
+                } else {
+                    System.out.println("Some internal error occurred");
+                }
             }
         }
     }

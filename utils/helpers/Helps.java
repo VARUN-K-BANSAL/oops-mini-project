@@ -13,8 +13,7 @@ public class Helps {
         System.out.println("  -sn\tfor searching details using name");
         System.out.println("  -d\tfor deleting the account");
         System.out.println("  -h\tfor the commands help");
-        // createNewAccountHelp();
-        // updatePasswordHelp();
+        System.out.println("  \tTo get help of any command just enter the command");
         System.out.println("-------------------------------------------------------------------");
     }
 
