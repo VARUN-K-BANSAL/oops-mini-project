@@ -2,26 +2,40 @@ package utils.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.ResultSet;  
 import java.sql.SQLException;
 
 import individuals.Varun;
+import utils.CurrentAccountUser;
+import utils.SavingAccountUser;
 
 public class SearchDataBase {
-    public static void searchUser(String username) {
+    public static Object searchUser(String username) {
         Connection con = ConnectionFactory.getConnection();
         String query = "SELECT * FROM account";
         try(PreparedStatement stmt = con.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
                 if(rs.getString("username").equals(username)) {
-                    System.out.println("------------------------------------------------------------------------");
-                    System.out.println("Name of account holder : " + rs.getString("account_holder_name"));
-                    System.out.println("Account Number : " + rs.getString("account_number"));
-                    System.out.println("Current Balance : " + rs.getString("account_balance"));
-                    System.out.println("Type of Account : " + ((rs.getString("account_type").equals("SA")) ? "Savings Account" : "Current Account"));
-                    System.out.println("------------------------------------------------------------------------");
-                    return;
+                    if(rs.getString("account_type").equalsIgnoreCase("CA")) {
+                        CurrentAccountUser user = new CurrentAccountUser(rs.getString("account_holder_name"),
+                                                                        rs.getString("gender"),
+                                                                        rs.getString("username"),
+                                                                        rs.getString("password"),
+                                                                        Double.valueOf(rs.getString("account_balance")));
+                        user.getAccount().setAccountNumber(rs.getString("account_number"));
+                        System.out.println(user);
+                        return user;
+                    } else if(rs.getString("account_type").equalsIgnoreCase("SA")) {
+                        SavingAccountUser user = new SavingAccountUser(rs.getString("account_holder_name"),
+                                                                        rs.getString("gender"),
+                                                                        rs.getString("username"),
+                                                                        rs.getString("password"),
+                                                                        Double.valueOf(rs.getString("account_balance")));
+                        user.getAccount().setAccountNumber(rs.getString("account_number"));
+                        System.out.println(user);
+                        return user;
+                    }
                 }
             }
             System.out.println("Record not found");
@@ -37,6 +51,7 @@ public class SearchDataBase {
         } catch (SQLException e) {
             // e.printStackTrace();
         }
+        return null;
     }
 
     public static void searchUserByAccountNumber(String number) {
@@ -46,13 +61,25 @@ public class SearchDataBase {
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
                 if(rs.getString("account_number").equals(number)) {
-                    System.out.println("------------------------------------------------------------------------");
-                    System.out.println("Name of account holder : " + rs.getString("account_holder_name"));
-                    System.out.println("Account Number : " + rs.getString("account_number"));
-                    System.out.println("Current Balance : " + rs.getString("account_balance"));
-                    System.out.println("Type of Account : " + ((rs.getString("account_type").equals("SA")) ? "Savings Account" : "Current Account"));
-                    System.out.println("------------------------------------------------------------------------");
-                    return;
+                    if(rs.getString("account_type").equalsIgnoreCase("CA")) {
+                        CurrentAccountUser user = new CurrentAccountUser(rs.getString("account_holder_name"),
+                                                                        rs.getString("gender"),
+                                                                        rs.getString("username"),
+                                                                        rs.getString("password"),
+                                                                        Double.valueOf(rs.getString("account_balance")));
+                        user.getAccount().setAccountNumber(rs.getString("account_number"));
+                        System.out.println(user);
+                        return;
+                    } else if(rs.getString("account_type").equalsIgnoreCase("SA")) {
+                        SavingAccountUser user = new SavingAccountUser(rs.getString("account_holder_name"),
+                                                                        rs.getString("gender"),
+                                                                        rs.getString("username"),
+                                                                        rs.getString("password"),
+                                                                        Double.valueOf(rs.getString("account_balance")));
+                        user.getAccount().setAccountNumber(rs.getString("account_number"));
+                        System.out.println(user);
+                        return;
+                    }
                 }
             }
             System.out.println("Record not found");
@@ -78,13 +105,24 @@ public class SearchDataBase {
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
                 if(rs.getString("account_holder_name").equals(name.toLowerCase())) {
-                    System.out.println("------------------------------------------------------------------------");
-                    System.out.println("Name of account holder : " + rs.getString("account_holder_name"));
-                    System.out.println("Account Number : " + rs.getString("account_number"));
-                    System.out.println("Current Balance : " + rs.getString("account_balance"));
-                    System.out.println("Type of Account : " + ((rs.getString("account_type").equals("SA")) ? "Savings Account" : "Current Account"));
-                    System.out.println("------------------------------------------------------------------------");
                     isFound = true;
+                    if(rs.getString("account_type").equalsIgnoreCase("CA")) {
+                        CurrentAccountUser user = new CurrentAccountUser(rs.getString("account_holder_name"),
+                                                                        rs.getString("gender"),
+                                                                        rs.getString("username"),
+                                                                        rs.getString("password"),
+                                                                        Double.valueOf(rs.getString("account_balance")));
+                        user.getAccount().setAccountNumber(rs.getString("account_number"));
+                        System.out.println(user);
+                    } else if(rs.getString("account_type").equalsIgnoreCase("SA")) {
+                        SavingAccountUser user = new SavingAccountUser(rs.getString("account_holder_name"),
+                                                                        rs.getString("gender"),
+                                                                        rs.getString("username"),
+                                                                        rs.getString("password"),
+                                                                        Double.valueOf(rs.getString("account_balance")));
+                        user.getAccount().setAccountNumber(rs.getString("account_number"));
+                        System.out.println(user);
+                    }
                 }
             }
             if(!isFound) {

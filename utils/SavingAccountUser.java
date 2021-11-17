@@ -25,6 +25,8 @@ public class SavingAccountUser {
                  +"Name : " + this.account.getName()
                  + "\nUserName : " + this.getUsername()
                  + "\nAccount Number : " + this.account.getAccountNumber()
+                 + "\nCurrent balance : " + this.account.getBalance()
+                 + "\nType of Account : Savings account"
                  + "\nGender : " + this.account.getGender() 
                  + "\n-------------------------------------------------------------------------";
     }
