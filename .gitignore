@@ -1,4 +1,4 @@
 *.class
 /individuals/*.class
 /utils/*.class
-/utils/Constants.java
+/data/SQLCreds.csv
