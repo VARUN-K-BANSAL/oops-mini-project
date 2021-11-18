@@ -11,12 +11,22 @@ import java.sql.SQLException;
 import java.util.List;
 
 import individuals.Varun;
+import utils.helpers.Transaction;
 
 /**
  * NOTE : If you make changes to this DatabaseCreator class you might have to reinitialise the program
  */
 
 public class DatabaseCreator {
+    static boolean initialising = true;
+    public static boolean isInitialising() {
+        return initialising;
+    }
+
+    public static void setInitialising(boolean initialising) {
+        DatabaseCreator.initialising = initialising;
+    }
+
     public static void programInit(String args[]) {
         final String databaseName = "oops_mini_project_group_19_2021";
         final String createDatabaseQuery = "CREATE DATABASE " + databaseName;
@@ -26,7 +36,6 @@ public class DatabaseCreator {
         try(PreparedStatement statement = con.prepareStatement(createDatabaseQuery)) {
             statement.execute(createDatabaseQuery);
             System.out.println("Database created....");
-            // con.close();
             createTables();
             addDummyDataToDataBase();
         } catch (Exception e) {
@@ -36,6 +45,12 @@ public class DatabaseCreator {
                 System.out.println("Unexpected error occur in creating database....");
             }
         }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            // e.printStackTrace();
+        }
+        setInitialising(false);
     }
 
     private static void addDummyDataToDataBase() {
@@ -48,15 +63,45 @@ public class DatabaseCreator {
                     String usersData[] = line.split(",");
                     DataBaseModifier.addDataToAccountTable(usersData);
                 }
-                System.out.println("Dummy data added....");
             } catch (IOException e) {
                 if(Varun.inProduction) {
                     e.printStackTrace();
                 } else {
-                    System.out.println("Unable to read the User data file");
+                    System.out.println("Unable to read the dummy data file");
                 }
             }
         }
+        path = Paths.get("data/initialTransactionData.csv");
+        if(Files.exists(path)) {
+            List<String> lines;
+            try {
+                lines = Files.readAllLines(path);
+                for (String line : lines) {
+                    String usersData[] = line.split(",");
+                    if(usersData[1].equals("w")) {
+                        DataBaseModifier.withdraw(usersData);
+                        Transaction t = new Transaction(Integer.valueOf(usersData[4]), usersData[2], "SELF", "W");
+                        DataBaseModifier.addTransaction(t);
+                    } else if(usersData[1].equals("d")) {
+                        DataBaseModifier.deposit(usersData);
+                        Transaction t = new Transaction(Integer.valueOf(usersData[3]), usersData[2], "SELF", "D");
+                        DataBaseModifier.addTransaction(t);
+                    } else if(usersData[1].equals("t")) {
+                        DataBaseModifier.transfer(usersData);
+                        Transaction t = new Transaction(Integer.valueOf(usersData[4]), usersData[2], usersData[5], "T");
+                        DataBaseModifier.addTransaction(t);
+                    }
+                }
+            } catch (IOException e) {
+                if(Varun.inProduction) {
+                    e.printStackTrace();
+                } else {
+                    System.out.println("Unable to read the dummy data file");
+                }
+                return;
+            }
+        }
+        System.out.println("Dummy data added....");
     }
 
     private static void dropDataBaseIfExists(String databaseName, String args[]) {

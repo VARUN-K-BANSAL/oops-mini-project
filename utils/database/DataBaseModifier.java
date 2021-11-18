@@ -116,8 +116,10 @@ public class DataBaseModifier {
             statement2.setDouble(1, obj.getAccount().getBalance());
             statement2.setString(2, obj.getUsername());
             statement2.executeUpdate();
-            System.out.println("Transaction successful...");
-            System.out.println("Current balance : " + obj.getAccount().getBalance());
+            if(DatabaseCreator.isInitialising() == false){
+                System.out.println("Transaction successful...");
+                System.out.println("Current balance : " + obj.getAccount().getBalance());
+            }
         } catch (Exception e) {
             try {
                 con.rollback();
@@ -150,8 +152,10 @@ public class DataBaseModifier {
             statement2.setDouble(1, obj.getAccount().getBalance());
             statement2.setString(2, obj.getUsername());
             statement2.executeUpdate();
-            System.out.println("Transaction successful...");
-            System.out.println("Current balance : " + obj.getAccount().getBalance());
+            if(DatabaseCreator.isInitialising() == false){
+                System.out.println("Transaction successful...");
+                System.out.println("Current balance : " + obj.getAccount().getBalance());
+            }
         } catch (Exception e) {
             try {
                 con.rollback();

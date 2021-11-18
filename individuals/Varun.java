@@ -10,6 +10,7 @@ import utils.CurrentAccountUser;
 import utils.SavingAccountUser;
 import utils.database.ConnectionFactory;
 import utils.database.DataBaseModifier;
+import utils.database.SearchDataBase;
 import utils.helpers.Helps;
 import utils.helpers.Transaction;
 
@@ -144,6 +145,18 @@ public class Varun {
         } else {
             System.out.println("Invalid Input");
             Helps.transactionHelp();
+        }
+    }
+
+    public static void searchUser(String[] args) {
+        if(args[1].equals("-u")) {
+            System.out.println(SearchDataBase.searchUser(args[2]));
+        } else if(args[1].equals("-a")) {
+            SearchDataBase.searchUserByAccountNumber(args[2]);
+        } else if(args[1].equals("-n")) {
+            SearchDataBase.searchUserByName(args[2]);
+        } else {
+            System.out.println("Invalid Input");
         }
     }
 }
