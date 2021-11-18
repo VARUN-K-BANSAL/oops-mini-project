@@ -1,11 +1,15 @@
 package utils.helpers;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Transaction {
     private String transactionId;
     private String date;
     private int amount;
-    private Account senderAccount;
-    private Account receiverAccount;
+    private String sender;
+    private String receiver;
+    private String typeOfTransaction;
 
     public String getTransactionId() {
         return transactionId;
@@ -31,20 +35,28 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public Account getSenderAccount() {
-        return senderAccount;
+    public String getTypeOfTransaction() {
+        return typeOfTransaction;
     }
 
-    public void setSenderAccount(Account senderAccount) {
-        this.senderAccount = senderAccount;
+    public void setTypeOfTransaction(String typeOfTransaction) {
+        this.typeOfTransaction = typeOfTransaction;
     }
 
-    public Account getReceiverAccount() {
-        return receiverAccount;
+    public String getSender() {
+        return sender;
     }
 
-    public void setReceiverAccount(Account receiverAccount) {
-        this.receiverAccount = receiverAccount;
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
     /**
@@ -53,20 +65,27 @@ public class Transaction {
         LocalDateTime now = LocalDateTime.now();
         System.out.println(dtf.format(now));
      */
-    public Transaction(String transactionId, String date, int amount, Account senderAccount,
-            Account receiverAccount) {
-        this.transactionId = transactionId;
-        this.date = date;
+    public Transaction(int amount, String sender, String receiver, String type) {
+        this.date = getDateTime();
         this.amount = amount;
-        this.senderAccount = senderAccount;
-        this.receiverAccount = receiverAccount;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.typeOfTransaction = type;
     }
+    private String getDateTime() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
+    }
+
     @Override
     public String toString() {
-        return "[Sender : " + this.senderAccount.getAccountNumber()
-                + ", Receiver : " + this.receiverAccount.getAccountNumber() 
+        return "-------------------------------------------------------------------\n"
+                + "Sender : " + this.getSender()
+                + ", Receiver : " + this.getReceiver()
                 + ", Transaction ID : " + this.getTransactionId()
                 + ", Date : " + this.getDate()
-                + ", Amount : " + this.getAmount() + "]";
+                + ", Amount : " + this.getAmount()
+                + "\n-------------------------------------------------------------------";
     }
 }

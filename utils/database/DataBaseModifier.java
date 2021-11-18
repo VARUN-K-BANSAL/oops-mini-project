@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import individuals.Varun;
 import utils.CurrentAccountUser;
 import utils.SavingAccountUser;
+import utils.helpers.Transaction;
 
 public class DataBaseModifier {
     public static void addDataToAccountTable(String data[]) {
@@ -171,7 +172,7 @@ public class DataBaseModifier {
         }
     }
 
-    public static boolean withdraw(String[] args) throws SQLException {
+    public static boolean withdraw(String[] args) {
         Object obj = SearchDataBase.searchUser(args[2]);
         if(obj.getClass().equals(CurrentAccountUser.class)) {
             if(((CurrentAccountUser) obj).getPassword().equals(Varun.encryptString(args[3]))) {
@@ -207,5 +208,49 @@ public class DataBaseModifier {
             System.out.println("Some internal error occurred");
         }
         return false;
+    }
+
+    public static void transfer(String[] args) {
+        withdraw(args);
+        deposit(new String[]{null, null, args[5], args[4]});
+    }
+
+    public static boolean deposit(String[] args) {
+        Object obj = SearchDataBase.searchUser(args[2]);
+        if(obj.getClass().equals(CurrentAccountUser.class)) {
+            double currBal = ((CurrentAccountUser) obj).getAccount().getBalance();
+            currBal = currBal + Double.valueOf(args[3]);
+            ((CurrentAccountUser) obj).getAccount().setBalance(currBal);
+            updateAccount((CurrentAccountUser) obj);
+        } else if(obj.getClass().equals(SavingAccountUser.class)) {
+            double currBal = ((SavingAccountUser) obj).getAccount().getBalance();
+            currBal = currBal + Double.valueOf(args[3]);
+            ((SavingAccountUser) obj).getAccount().setBalance(currBal);
+            updateAccount((SavingAccountUser) obj);
+        } else {
+            System.out.println("Some internal error occurred");
+        }
+        return false;
+    }
+
+    public static void addTransaction(Transaction transaction) {
+        Connection con = ConnectionFactory.getConnection();
+        String query = "INSERT INTO TRANSACTION (sender, receiver, transaction_date, amount, type)"
+                        + "VALUES (?, ?, ?, ?, ?)";
+
+        try(PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, transaction.getSender());
+            stmt.setString(2, transaction.getReceiver());
+            stmt.setString(3, transaction.getDate());
+            stmt.setInt(4, transaction.getAmount());
+            stmt.setString(5, transaction.getTypeOfTransaction());
+            stmt.executeUpdate();
+        } catch(Exception e) {
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some error occurred");
+            }
+        }
     }
 }

@@ -69,6 +69,6 @@ public class Helps {
         System.out.println("  \t\t2. Username of the account");
         System.out.println("  \t\t3. Password of the account");
         System.out.println("  \t\t4. Amount of the account");
-        System.out.println("  \t\t5. Account number of reciever if applicable");
+        System.out.println("  \t\t5. Username of reciever if applicable");
     }
 }

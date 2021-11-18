@@ -11,6 +11,7 @@ import utils.SavingAccountUser;
 import utils.database.ConnectionFactory;
 import utils.database.DataBaseModifier;
 import utils.helpers.Helps;
+import utils.helpers.Transaction;
 
 public class Varun {
     /**
@@ -129,19 +130,17 @@ public class Varun {
 
     public static void executeTransaction(String[] args) {
         if(args[1].equals("-w")) {
-            try {
-                DataBaseModifier.withdraw(args);
-            } catch (SQLException e) {
-                if(Varun.inProduction) {
-                    e.printStackTrace();
-                } else {
-                    System.out.println("Some error occurred while withdrawing");
-                }
-            }
+            DataBaseModifier.withdraw(args);
+            Transaction transaction = new Transaction(Integer.valueOf(args[4]), args[2], "SELF", "W");
+            DataBaseModifier.addTransaction(transaction);
         } else if(args[1].equals("-d")) {
-
+            DataBaseModifier.deposit(args);
+            Transaction transaction = new Transaction(Integer.valueOf(args[3]), args[2], "SELF", "D");
+            DataBaseModifier.addTransaction(transaction);
         } else if(args[1].equals("-t")) {
-
+            DataBaseModifier.transfer(args);
+            Transaction transaction = new Transaction(Integer.valueOf(args[4]), args[2], args[5], "T");
+            DataBaseModifier.addTransaction(transaction);
         } else {
             System.out.println("Invalid Input");
             Helps.transactionHelp();

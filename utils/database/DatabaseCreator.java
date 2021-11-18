@@ -103,6 +103,7 @@ public class DatabaseCreator {
                                             + "transaction_id INT NOT NULL AUTO_INCREMENT,"
                                             + "transaction_date DATETIME NOT NULL,"
                                             + "amount INT NOT NULL,"
+                                            + "type VARCHAR(2) NOT NULL,"
                                             + "PRIMARY KEY(transaction_id),"
                                             + "FOREIGN KEY(sender) REFERENCES account(username))";
 
