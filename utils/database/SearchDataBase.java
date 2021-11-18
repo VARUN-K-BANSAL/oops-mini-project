@@ -24,7 +24,6 @@ public class SearchDataBase {
                                                                         rs.getString("password"),
                                                                         Double.valueOf(rs.getString("account_balance")));
                         user.getAccount().setAccountNumber(rs.getString("account_number"));
-                        System.out.println(user);
                         return user;
                     } else if(rs.getString("account_type").equalsIgnoreCase("SA")) {
                         SavingAccountUser user = new SavingAccountUser(rs.getString("account_holder_name"),
@@ -33,7 +32,6 @@ public class SearchDataBase {
                                                                         rs.getString("password"),
                                                                         Double.valueOf(rs.getString("account_balance")));
                         user.getAccount().setAccountNumber(rs.getString("account_number"));
-                        System.out.println(user);
                         return user;
                     }
                 }

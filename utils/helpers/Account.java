@@ -6,7 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import individuals.Varun;
+import utils.CurrentAccountUser;
 import utils.database.ConnectionFactory;
+import utils.database.DataBaseModifier;
+import utils.database.SearchDataBase;
 
 public abstract class Account {
     private String accountNumber;
@@ -89,37 +92,7 @@ public abstract class Account {
     /*
      * Need modification just started now 
      */
-    public boolean withdraw(String[] creds, int amount) throws SQLException {
-        Connection con = ConnectionFactory.getConnection();
-        if(authUser(creds, con)) {
-            double bal = checkBalance(creds, con);
-            if(bal > amount) {
-                bal = bal - amount;
-                String query = "UPDATE account SET account_balance = "
-                                + bal + " WHERE username = "
-                                + creds[0] + " AND password = " + creds[1];
-
-                try(PreparedStatement stmt = con.prepareStatement(query)) {
-                    try {
-                        stmt.executeUpdate();
-                    } catch (SQLException e) {
-                        if(Varun.inProduction) {
-                            e.printStackTrace();
-                        } else {
-                            System.out.println("Some internal error occurred");
-                        }
-                    }
-                }
-                return true;
-            }
-        }
-        try {
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+    
 
     private double checkBalance(String[] creds, Connection con) {
         String query = "SELECT * FROM account WHERE username = " + creds[0] + " AND password = " + creds[1];

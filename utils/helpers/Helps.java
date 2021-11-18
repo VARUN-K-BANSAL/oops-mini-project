@@ -4,7 +4,7 @@ public class Helps {
 
     public static void printHelp() {
         System.out.println("-------------------------------------------------------------------");
-        System.out.println("Record Manager, version 1.0.0");
+        System.out.println("IIIT Sri City Bank, version 1.0.0");
         System.out.println("--init\tfor initialising the program followed by your MYSQL username and password");
         System.out.println("  -c\tfor creating a new account");
         System.out.println("  -u\tfor updating password");
@@ -12,6 +12,7 @@ public class Helps {
         System.out.println("  -sa\tfor searching using account number");
         System.out.println("  -sn\tfor searching details using name");
         System.out.println("  -d\tfor deleting the account");
+        System.out.println("  -tr\tfor doing the transaction");
         System.out.println("  -h\tfor the commands help");
         System.out.println("  \tTo get help of any command just enter the command");
         System.out.println("-------------------------------------------------------------------");
@@ -59,5 +60,15 @@ public class Helps {
         System.out.println("  -su\tfor searching details using name");
         System.out.println("  \t\t\tArguments");
         System.out.println("  \t\t1. Name of the account holder");
+    }
+
+    public static void transactionHelp() {
+        System.out.println("  -tr\tfor doing trasactions");
+        System.out.println("  \t\t\tArguments");
+        System.out.println("  \t\t1. -w for withdrawing, -d for deposit, -t for transferring");
+        System.out.println("  \t\t2. Username of the account");
+        System.out.println("  \t\t3. Password of the account");
+        System.out.println("  \t\t4. Amount of the account");
+        System.out.println("  \t\t5. Account number of reciever if applicable");
     }
 }

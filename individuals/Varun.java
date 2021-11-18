@@ -10,6 +10,7 @@ import utils.CurrentAccountUser;
 import utils.SavingAccountUser;
 import utils.database.ConnectionFactory;
 import utils.database.DataBaseModifier;
+import utils.helpers.Helps;
 
 public class Varun {
     /**
@@ -123,6 +124,27 @@ public class Varun {
             con.close();
         } catch (SQLException e) {
             // e.printStackTrace();
+        }
+    }
+
+    public static void executeTransaction(String[] args) {
+        if(args[1].equals("-w")) {
+            try {
+                DataBaseModifier.withdraw(args);
+            } catch (SQLException e) {
+                if(Varun.inProduction) {
+                    e.printStackTrace();
+                } else {
+                    System.out.println("Some error occurred while withdrawing");
+                }
+            }
+        } else if(args[1].equals("-d")) {
+
+        } else if(args[1].equals("-t")) {
+
+        } else {
+            System.out.println("Invalid Input");
+            Helps.transactionHelp();
         }
     }
 }

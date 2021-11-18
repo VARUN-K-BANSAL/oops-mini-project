@@ -49,7 +49,8 @@ public class Main {
                         Helps.searchUsingUserNameHelp();
                         return;
                     }
-                    SearchDataBase.searchUser(args[1]);
+                    Object obj = SearchDataBase.searchUser(args[1]);
+                    System.out.println(obj);
                     return;
             
             case "-sa":
@@ -77,6 +78,15 @@ public class Main {
                         return;
                     }
                     DataBaseModifier.deleteAccount(args);
+                    break;
+
+            case "-tr":
+                    if(args.length < 2) {
+                        System.out.println("Invalid number of arguments");
+                        Helps.transactionHelp();
+                        return;
+                    }
+                    Varun.executeTransaction(args);
                     break;
 
             case "--init":

@@ -102,4 +102,110 @@ public class DataBaseModifier {
             // e.printStackTrace();
         }
     }
+
+    public static void updateAccount(CurrentAccountUser obj) {
+        Connection con = ConnectionFactory.getConnection();
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e1) {
+            // e1.printStackTrace();
+        }
+        String query = "UPDATE account SET account_balance = ? WHERE username = ?";
+        try (PreparedStatement statement2 = con.prepareStatement(query)) {
+            statement2.setDouble(1, obj.getAccount().getBalance());
+            statement2.setString(2, obj.getUsername());
+            statement2.executeUpdate();
+            System.out.println("Transaction successful...");
+            System.out.println("Current balance : " + obj.getAccount().getBalance());
+        } catch (Exception e) {
+            try {
+                con.rollback();
+            } catch (SQLException e1) {
+                // e1.printStackTrace();
+            }
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occured");
+            }
+        }
+        try {
+            con.commit();
+            con.close();
+        } catch (SQLException e) {
+            // e.printStackTrace();
+        }
+    }
+
+    private static void updateAccount(SavingAccountUser obj) {
+        Connection con = ConnectionFactory.getConnection();
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e1) {
+            // e1.printStackTrace();
+        }
+        String query = "UPDATE account SET account_balance = ? WHERE username = ?";
+        try (PreparedStatement statement2 = con.prepareStatement(query)) {
+            statement2.setDouble(1, obj.getAccount().getBalance());
+            statement2.setString(2, obj.getUsername());
+            statement2.executeUpdate();
+            System.out.println("Transaction successful...");
+            System.out.println("Current balance : " + obj.getAccount().getBalance());
+        } catch (Exception e) {
+            try {
+                con.rollback();
+            } catch (SQLException e1) {
+                // e1.printStackTrace();
+            }
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occured");
+            }
+        }
+        try {
+            con.commit();
+            con.close();
+        } catch (SQLException e) {
+            // e.printStackTrace();
+        }
+    }
+
+    public static boolean withdraw(String[] args) throws SQLException {
+        Object obj = SearchDataBase.searchUser(args[2]);
+        if(obj.getClass().equals(CurrentAccountUser.class)) {
+            if(((CurrentAccountUser) obj).getPassword().equals(Varun.encryptString(args[3]))) {
+                double currBal = ((CurrentAccountUser) obj).getAccount().getBalance();
+                if(currBal > Double.valueOf(args[4])) {
+                    currBal = currBal - Double.valueOf(args[4]);
+                    ((CurrentAccountUser) obj).getAccount().setBalance(currBal);
+                } else {
+                    System.out.println("Insufficient balance | Current balance : " + currBal);
+                    return false;
+                }
+            } else {
+                System.out.println("Invalid Username or password");
+                return false;
+            }
+            updateAccount((CurrentAccountUser) obj);
+        } else if(obj.getClass().equals(SavingAccountUser.class)) {
+            if(((SavingAccountUser) obj).getPassword().equals(Varun.encryptString(args[3]))) {
+                double currBal = ((SavingAccountUser) obj).getAccount().getBalance();
+                if(currBal > Double.valueOf(args[4])) {
+                    currBal = currBal - Double.valueOf(args[4]);
+                    ((SavingAccountUser) obj).getAccount().setBalance(currBal);
+                } else {
+                    System.out.println("Insufficient balance | Current balance : " + currBal);
+                    return false;
+                }
+            } else {
+                System.out.println("Invalid Username or password");
+                return false;
+            }
+            updateAccount((SavingAccountUser) obj);
+        } else {
+            System.out.println("Some internal error occurred");
+        }
+        return false;
+    }
 }
