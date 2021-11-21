@@ -88,8 +88,12 @@ public class DataBaseModifier {
         try(PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, args[1]);
             stmt.setString(2, Varun.encryptString(args[2]));
-            stmt.executeUpdate();
-            System.out.println("Account deleted successfully");
+            int rowsUpdated = stmt.executeUpdate();
+            if(rowsUpdated != 0) {
+                System.out.println("Account deleted successfully");
+            } else {
+                System.out.println("Cannot delete the account");
+            }
         } catch (Exception e) {
             if(Varun.inProduction) {
                 e.printStackTrace();
@@ -242,6 +246,11 @@ public class DataBaseModifier {
         String query = "INSERT INTO TRANSACTION (sender, receiver, transaction_date, amount, type)"
                         + "VALUES (?, ?, ?, ?, ?)";
 
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e1) {
+            // e1.printStackTrace();
+        }
         try(PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, transaction.getSender());
             stmt.setString(2, transaction.getReceiver());
@@ -249,12 +258,25 @@ public class DataBaseModifier {
             stmt.setInt(4, transaction.getAmount());
             stmt.setString(5, transaction.getTypeOfTransaction());
             stmt.executeUpdate();
+            if(DatabaseCreator.isInitialising() == false) {
+                System.out.println("Transaction Successful");
+            }
         } catch(Exception e) {
+            try {
+                con.rollback();
+            } catch (SQLException e1) {
+                // e1.printStackTrace();
+            }
             if(Varun.inProduction) {
                 e.printStackTrace();
             } else {
                 System.out.println("Some error occurred");
             }
+        }
+        try {
+            con.commit();
+        } catch (SQLException e) {
+            // e.printStackTrace();
         }
     }
 }

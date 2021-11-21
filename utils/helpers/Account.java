@@ -3,13 +3,9 @@ package utils.helpers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import individuals.Varun;
-import utils.CurrentAccountUser;
 import utils.database.ConnectionFactory;
-import utils.database.DataBaseModifier;
-import utils.database.SearchDataBase;
 
 public abstract class Account {
     private String accountNumber;
