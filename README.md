@@ -139,6 +139,12 @@ For transferring Money use -t
 4. Username of the beneficiary
 java Main -tr -t sender_username password amount beneficiary_username
 ```
+---------------------------------------------------------
 
+### Loan
+```java
+java Main -l
+```
 
+```
 

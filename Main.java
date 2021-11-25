@@ -1,5 +1,5 @@
 /**
- * Github Repo Link for clarification - https://github.com/VARUN-K-BANSAL/oops-mini-project
+ * GitHub Repo Link for clarification - https://github.com/VARUN-K-BANSAL/oops-mini-project
  */
 
 import java.io.IOException;
