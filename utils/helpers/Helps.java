@@ -8,7 +8,7 @@ public class Helps {
         System.out.println("--init\tfor initialising the program followed by your MYSQL username and password");
         System.out.println("  -c\tfor creating a new account");
         System.out.println("  -up\tfor updating password");
-        System.out.println("  -s\tfor searching details using username, acc. number, name");
+        System.out.println("  -s\tfor searching details about users, transactions etc");
         System.out.println("  -d\tfor deleting the account");
         System.out.println("  -tr\tfor doing the transaction");
         System.out.println("  -h\tfor the commands help");

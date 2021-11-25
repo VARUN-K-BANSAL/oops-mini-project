@@ -36,7 +36,14 @@ public class Transaction {
     }
 
     public String getTypeOfTransaction() {
-        return typeOfTransaction;
+        if(this.typeOfTransaction.equals("W")) {
+            return "Withdraw";
+        } else if(this.typeOfTransaction.equals("D")) {
+            return "Deposit";
+        } else if(this.typeOfTransaction.equals("T")) {
+            return "Transfer";
+        }
+        return null;
     }
 
     public void setTypeOfTransaction(String typeOfTransaction) {
@@ -59,12 +66,18 @@ public class Transaction {
         this.receiver = receiver;
     }
 
-    /**
-     * string for getting Date Time
-     * DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println(dtf.format(now));
-     */
+    /**This Constructor is made for the case when we are retrieving data from database */
+    public Transaction(String transactionId, String date, int amount, String sender, String receiver,
+            String typeOfTransaction) {
+        this.transactionId = transactionId;
+        this.date = date;
+        this.amount = amount;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.typeOfTransaction = typeOfTransaction;
+    }
+
+    /**This Constructor is made for the case when we are storing data in database */
     public Transaction(int amount, String sender, String receiver, String type) {
         this.date = getDateTime();
         this.amount = amount;
@@ -82,10 +95,11 @@ public class Transaction {
     public String toString() {
         return "-------------------------------------------------------------------\n"
                 + "Sender : " + this.getSender()
-                + ", Receiver : " + this.getReceiver()
-                + ", Transaction ID : " + this.getTransactionId()
-                + ", Date : " + this.getDate()
-                + ", Amount : " + this.getAmount()
+                + "\nReceiver : " + this.getReceiver()
+                + "\nTransaction ID : " + this.getTransactionId()
+                + "\nDate : " + this.getDate()
+                + "\nAmount : " + this.getAmount()
+                + "\nType of transaction : " + this.getTypeOfTransaction()
                 + "\n-------------------------------------------------------------------";
     }
 }

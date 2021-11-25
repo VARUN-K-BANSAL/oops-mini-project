@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import individuals.Varun;
 import utils.CurrentAccountUser;
 import utils.SavingAccountUser;
+import utils.helpers.Transaction;
 
 public class SearchDataBase {
     public static Object searchUser(String username) {
@@ -131,6 +132,47 @@ public class SearchDataBase {
                 e.printStackTrace();
             } else {
                 System.out.println("Some error occurred while accessing the database");
+            }
+        }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            // e.printStackTrace();
+        }
+    }
+
+    public static void searchTransaction(String string) {
+        Connection con = ConnectionFactory.getConnection();
+        String query = "SELECT * FROM transaction";
+        boolean isFound = false;
+        try(PreparedStatement stmt = con.prepareStatement(query)) {
+            // System.out.println("Debug 1");
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                if(Integer.toString(rs.getInt("transaction_id")).equals(string)) {
+                    // System.out.println("Debug 2");
+                    String id = Integer.toString(rs.getInt("transaction_id"));
+                    String dateTime = rs.getString("transaction_date");
+                    String sender = rs.getString("sender");
+                    String receiver = rs.getString("receiver");
+                    int amount = rs.getInt("amount");
+                    String type = rs.getString("type");
+                    // System.out.println(type);
+                    Transaction transaction = new Transaction(id, dateTime, amount, sender, receiver, type);
+                    System.out.println(transaction);
+                    // System.out.println("Debug 2");
+                    isFound = true;
+                    break;
+                }
+            }
+            if(!isFound) {
+                System.out.println("No record found for this transaction ID");
+            }
+        } catch (Exception e) {
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occurred");
             }
         }
         try {
