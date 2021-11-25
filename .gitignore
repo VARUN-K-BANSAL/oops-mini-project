@@ -2,3 +2,4 @@
 /individuals/*.class
 /utils/*.class
 /data/SQLCreds.csv
+.vscode/
