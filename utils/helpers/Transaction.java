@@ -35,15 +35,23 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public String getTypeOfTransaction() {
-        if(this.typeOfTransaction.equals("W")) {
-            return "Withdraw";
-        } else if(this.typeOfTransaction.equals("D")) {
-            return "Deposit";
-        } else if(this.typeOfTransaction.equals("T")) {
-            return "Transfer";
+    public String getTypeOfTransaction(boolean isPrinting) {
+        if(isPrinting) {
+            if(this.typeOfTransaction.equals("W")) {
+                return "Withdraw";
+            } else if(this.typeOfTransaction.equals("D")) {
+                return "Deposit";
+            } else if(this.typeOfTransaction.equals("T")) {
+                return "Transfer";
+            }
+        } else {
+            return this.typeOfTransaction;
         }
         return null;
+    }
+
+    public String getTypeOfTransaction() {
+        return this.typeOfTransaction;
     }
 
     public void setTypeOfTransaction(String typeOfTransaction) {
@@ -99,7 +107,7 @@ public class Transaction {
                 + "\nTransaction ID : " + this.getTransactionId()
                 + "\nDate : " + this.getDate()
                 + "\nAmount : " + this.getAmount()
-                + "\nType of transaction : " + this.getTypeOfTransaction()
+                + "\nType of transaction : " + this.getTypeOfTransaction(true)
                 + "\n-------------------------------------------------------------------";
     }
 }

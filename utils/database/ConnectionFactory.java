@@ -90,6 +90,16 @@ public class ConnectionFactory {
                     System.out.println("Some internal error occurred");
                 }
             }
+        } else {
+            try {
+                Files.createFile(path);
+            } catch (IOException e) {
+                if(Varun.inProduction) {
+                    e.printStackTrace();
+                } else {
+                    System.out.println("Some internal error occurred");
+                }
+            }
         }
     }
 }

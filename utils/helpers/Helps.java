@@ -45,9 +45,10 @@ public class Helps {
     public static void searchUsingUserNameHelp() {
         System.out.println("  -s\tfor searching details");
         System.out.println("  \t\t\tArguments");
-        System.out.println("  \t\t-u followed by username of the account");
-        System.out.println("  \t\t-a followed by account number");
-        System.out.println("  \t\t-n followed by name of the account holder");
+        System.out.println("  \t\t-u for searching using username followed by username of the account");
+        System.out.println("  \t\t-a for searching using account number followed by account number");
+        System.out.println("  \t\t-n for searching using name followed by name of the account holder");
+        System.out.println("  \t\t-t for tracking a transaction followed by transaction Id");
     }
 
     public static void transactionHelp() {

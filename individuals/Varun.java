@@ -156,7 +156,6 @@ public class Varun {
         } else if(args[1].equals("-n")) {
             SearchDataBase.searchUserByName(args[2]);
         } else if(args[1].equals("-t")) {
-            // System.out.println("Debug");
             SearchDataBase.searchTransaction(args[2]);
         } else {
             System.out.println("Invalid Input");
