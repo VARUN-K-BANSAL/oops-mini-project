@@ -42,10 +42,11 @@ public class Helps {
         System.out.println("  \t\t3. New password");
     }
 
-    public static void searchUsingUserNameHelp() {
+    public static void searchHelp() {
         System.out.println("  -s\tfor searching details");
         System.out.println("  \t\t\tArguments");
         System.out.println("  \t\t-u for searching using username followed by username of the account");
+        System.out.println("  \t\t\talso add -d after username for detailed description of user");
         System.out.println("  \t\t-a for searching using account number followed by account number");
         System.out.println("  \t\t-n for searching using name followed by name of the account holder");
         System.out.println("  \t\t-t for tracking a transaction followed by transaction Id");
@@ -59,5 +60,10 @@ public class Helps {
         System.out.println("  \t\t3. Password of the account");
         System.out.println("  \t\t4. Amount of the account");
         System.out.println("  \t\t5. Username of reciever if applicable");
+    }
+
+    public static void sortHelp() {
+        System.out.println("  -sort\tfor printing customer names and account number in sorted order");
+        System.out.println("\t\tNo arguments required");
     }
 }

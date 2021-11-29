@@ -181,4 +181,75 @@ public class SearchDataBase {
             // e.printStackTrace();
         }
     }
+
+    public static void printSortedUserList() {
+        Connection con = ConnectionFactory.getConnection();
+        String query = "SELECT account_holder_name, account_number FROM account ORDER BY account_holder_name";
+        try(PreparedStatement stmt = con.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            System.out.println("+-----------------------+---------------+");
+            System.out.println("|\t   NAME   \t|    Acc. No.\t|");
+            System.out.println("|-----------------------+---------------|");
+            while(rs.next()) {
+                System.out.printf("|\t%10s\t|\t%s\t|\n", rs.getString("account_holder_name"),rs.getString("account_number"));
+            }
+            System.out.println("+-----------------------+---------------+");
+        } catch (Exception e) {
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occurred");
+            }
+        }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            // e.printStackTrace();
+        }
+    }
+
+    public static void printTransactions(String string) {
+        Connection con = ConnectionFactory.getConnection();
+        String query = "SELECT * FROM transaction";
+        try(PreparedStatement stmt = con.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            System.out.println("+---------------------------------------------------------------------------------------+");
+            System.out.println("|                                 Transactions                                          |");
+            System.out.println("|---------------------------------------------------------------------------------------|");
+            System.out.println("|\tID\t|\t Date and Time \t\t|  Amount\t| \t Remark \t|");
+            System.out.println("|---------------+---------------------------------+---------------+---------------------|");
+            while(rs.next()) {
+                if(rs.getString("sender").equals(string)) {
+                    String result = "|\t" + rs.getInt("transaction_id")
+                                    + "\t|\t" + rs.getString("transaction_date")
+                                    + "\t|\t" + rs.getInt("amount");
+
+                    if(rs.getString("type").equals("W") || rs.getString("type").equals("T")) {
+                        result = result + "\t|\tWithdraw\t|";
+                    } else if(rs.getString("type").equals("D")) {
+                        result = result + "\t|\tDeposit \t|";
+                    }
+                    System.out.println(result);
+                } else if(rs.getString("receiver").equals(string)) {
+                    String result = "|\t" + rs.getInt("transaction_id")
+                                    + "\t|\t" + rs.getString("transaction_date")
+                                    + "\t|\t" + rs.getInt("amount");
+
+                    if(rs.getString("type").equals("W")) {
+                        result = result + "\t|\tWithdraw\t|";
+                    } else if(rs.getString("type").equals("D") || rs.getString("type").equals("T")) {
+                        result = result + "\t|\tDeposit \t|";
+                    }
+                    System.out.println(result);
+                }
+            }
+            System.out.println("+---------------------------------------------------------------------------------------+");
+        } catch (Exception e) {
+            if(Varun.inProduction) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some error occurred");
+            }
+        }
+    }
 }

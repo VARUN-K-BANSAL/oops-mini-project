@@ -275,6 +275,7 @@ public class DataBaseModifier {
         }
         try {
             con.commit();
+            con.close();
         } catch (SQLException e) {
             // e.printStackTrace();
         }

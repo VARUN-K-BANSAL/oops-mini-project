@@ -84,44 +84,4 @@ public abstract class Account {
         }
         return true;
     }
-
-    /*
-     * Need modification just started now 
-     */
-    
-
-    private double checkBalance(String[] creds, Connection con) {
-        String query = "SELECT * FROM account WHERE username = " + creds[0] + " AND password = " + creds[1];
-        try(PreparedStatement statement = con.prepareStatement(query)) {
-            ResultSet rs = statement.executeQuery();
-            return rs.getDouble("account_balance");
-        } catch(Exception e) {
-            if(Varun.inProduction) {
-                e.printStackTrace();
-            } else {
-                System.out.println("Some internal error occurred");
-            }
-        }
-        return 0;
-    }
-
-    private boolean authUser(String[] creds, Connection con) {
-        String query = "SELECT * FROM account";
-        try(PreparedStatement statement = con.prepareStatement(query)) {
-            ResultSet rs = statement.executeQuery();
-            while(rs.next()) {
-                if(rs.getString("username").equals(creds[0]) 
-                    && rs.getString("password").equals(creds[1])) {
-                    return true;
-                }
-            }
-        } catch(Exception e) {
-            if(Varun.inProduction) {
-                e.printStackTrace();
-            } else {
-                System.out.println("Some internal error occurred");
-            }
-        }
-        return false;
-    }
 }

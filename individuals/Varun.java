@@ -150,7 +150,15 @@ public class Varun {
 
     public static void searchUser(String[] args) {
         if(args[1].equals("-u")) {
-            System.out.println(SearchDataBase.searchUser(args[2]));
+            Object obj = SearchDataBase.searchUser(args[2]);
+            if(obj != null) {
+                System.out.println(obj);
+                if(args.length >= 4) {
+                    if(args[3].equals("-d")) {
+                        SearchDataBase.printTransactions(args[2]);
+                    }
+                }
+            }
         } else if(args[1].equals("-a")) {
             SearchDataBase.searchUserByAccountNumber(args[2]);
         } else if(args[1].equals("-n")) {

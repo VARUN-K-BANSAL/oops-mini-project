@@ -6,6 +6,7 @@ import java.io.IOException;
 import individuals.Varun;
 import utils.database.DataBaseModifier;
 import utils.database.DatabaseCreator;
+import utils.database.SearchDataBase;
 import utils.helpers.Helps;
 
 /**
@@ -45,7 +46,7 @@ public class Main {
             case "-s":
                     if(args.length < 3) {
                         System.out.println("Invalid number of arguments for searching");
-                        Helps.searchUsingUserNameHelp();
+                        Helps.searchHelp();
                         return;
                     }
                     Varun.searchUser(args);
@@ -67,6 +68,10 @@ public class Main {
                         return;
                     }
                     Varun.executeTransaction(args);
+                    break;
+
+            case "-sort":
+                    SearchDataBase.printSortedUserList();
                     break;
 
             case "--init":
