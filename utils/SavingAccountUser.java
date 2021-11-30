@@ -5,11 +5,18 @@ import java.io.IOException;
 import utils.helpers.Account;
 import utils.helpers.SavingAccount;
 
+/**
+ * SavingAccountUser class
+ * It has a username, password and an blank Object of type SavingAccount
+ */
 public class SavingAccountUser {
     private String username;
     private String password;
     private SavingAccount account = new SavingAccount();
 
+    /**
+     * Constructor with arguments
+     */
     public SavingAccountUser(String name, String gender, String username, String password, double balance) throws IOException {
         this.username = username;
         this.password = password;
@@ -19,6 +26,9 @@ public class SavingAccountUser {
         this.account.setGender(gender);
     }
 
+    /**
+     * Overridden toString method for beautifully printing the Object
+     */
     @Override
     public String toString() {
         return "-------------------------------------------------------------------------\n" 
@@ -31,6 +41,9 @@ public class SavingAccountUser {
                  + "\n-------------------------------------------------------------------------";
     }
 
+    /**
+     * Getters and Setters
+     */
     public SavingAccount getAccount() {
         return account;
     }

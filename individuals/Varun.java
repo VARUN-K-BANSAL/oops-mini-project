@@ -16,8 +16,9 @@ import utils.helpers.Transaction;
 
 public class Varun {
     /**
+     * This is a basically a development purpose variable which will restrict the error
      * While submitting make sure to make this inProduction = false
-     * which will restrict the errors means it will not show the descriptive errors
+     * By making this false it will not show detailed error, it will show some beautiful error message
      */
     final public static boolean inProduction = true;
 
@@ -28,7 +29,7 @@ public class Varun {
     final private static String ALPHA = "qwertyuiopasdfghjklzxcvbnm";
 
     /**
-     * method for encrypting strings for storing username and passwords
+     * method for encrypting strings for storing username and passwords in encrypted form
      */
     public static String encryptString(String inputString) {
         String encryptedString = "";
@@ -44,6 +45,8 @@ public class Varun {
 
     /**
      * Method for creating new account
+     * It will check the availability of the username as well
+     * It will create apprpriate object and add data to the database by using dataBaseModifier.java file
      */
     public static void createNewAccount(String[] args) throws IOException {
         String accType = args[1].toUpperCase();
@@ -75,6 +78,9 @@ public class Varun {
 
     /**
      * Method for authenticating username
+     * This will return false if the username is already present in the database
+     * means that the user have to give any other username
+     * and returns true if that username is available
      */
     private static boolean authenticateUsername(String username) {
         Connection con = ConnectionFactory.getConnection();
@@ -99,6 +105,7 @@ public class Varun {
 
     /**
      * Method for updating password
+     * After successful login using oldPassword this will update the password in database using DataBaseModifier.java file
      */
     public static void updatePassword(String[] args) throws IOException {
         String username = args[1];
@@ -129,6 +136,9 @@ public class Varun {
         }
     }
 
+    /**
+     * This method is used to execute transactions when a user wants to do transaction
+     */
     public static void executeTransaction(String[] args) {
         if(args[1].equals("-w")) {
             DataBaseModifier.withdraw(args);
@@ -148,6 +158,13 @@ public class Varun {
         }
     }
 
+    /**
+     * This method is used when the user wants to search for a user or transaction (-s case)
+     * -u for username using SearchDataBase.java file and if someone will add -d then it will also print the transaction
+     * -a for searching using account number
+     * -n for searching using customer name
+     * -t for searching of a transaction using its transaction id
+     */
     public static void searchUser(String[] args) {
         if(args[1].equals("-u")) {
             Object obj = SearchDataBase.searchUser(args[2]);

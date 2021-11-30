@@ -18,7 +18,11 @@ import utils.helpers.Transaction;
  */
 
 public class DatabaseCreator {
-    static boolean initialising = true;
+
+    /**
+     * This is private variable which represents whether the program is in intialised mode or in the normal run
+     */
+    private static boolean initialising = true;
     public static boolean isInitialising() {
         return initialising;
     }
@@ -53,6 +57,13 @@ public class DatabaseCreator {
         setInitialising(false);
     }
 
+    /**
+     * This method addDummyDataToDataBase will add the dummy data from two files
+     * 1st is from intialUserData.csv which contains the data of the users
+     *  (By default password for every user is admin)
+     * 2nd is from initialTransactionData.csv which contains data of the transaction done by the users
+     * used java nio for file I/O
+     */
     private static void addDummyDataToDataBase() {
         Path path = Paths.get("data/initialUserData.csv");
         if(Files.exists(path)) {
@@ -104,6 +115,9 @@ public class DatabaseCreator {
         System.out.println("Dummy data added....");
     }
 
+    /**
+     * This method is basically used for development purposes it will drop database if it exists
+     */
     private static void dropDataBaseIfExists(String databaseName, String args[]) {
         Connection con = ConnectionFactory.getConnection(args[1], args[2]);
         final String dropDataBaseQuery = "DROP DATABASE IF EXISTS " + databaseName;
@@ -123,6 +137,11 @@ public class DatabaseCreator {
         }
     }
 
+    /**
+     * This method createTables is used to create tables in the database
+     * 1st is account table which will store the customers data
+     * 2nd is transaction table which will store transaction records
+     */
     private static void createTables() {
         final Connection con = ConnectionFactory.getConnection();
         final String accountTableQuery = "CREATE TABLE account(username VARCHAR(25) NOT NULL PRIMARY KEY,"

@@ -10,6 +10,10 @@ import utils.SavingAccountUser;
 import utils.helpers.Transaction;
 
 public class DataBaseModifier {
+
+    /**
+     * This is the method to add data into account table using the array of Strings
+     */
     public static void addDataToAccountTable(String data[]) {
         Connection con = ConnectionFactory.getConnection();
         String insertQuery = "INSERT INTO account VALUES(" + "?, " + "?, " + "?, " + "?, " + "?, " + "?, " + "?)";
@@ -33,6 +37,10 @@ public class DataBaseModifier {
         }
     }
 
+    /**
+     * This method is also used to add data into account table using an object of type CurrentAccountUser
+     * This is an overridden method
+     */
     public static void addDataToAccountTable(CurrentAccountUser user) {
         String[] data = new String[7];
         data[0] = user.getUsername();
@@ -45,6 +53,10 @@ public class DataBaseModifier {
         addDataToAccountTable(data);
     }
 
+    /**
+     * This method is also used to add data into account table using an object of type SavingAccountUser
+     * This is also an overridden method
+     */
     public static void addDataToAccountTable(SavingAccountUser user) {
         String[] data = new String[7];
         data[0] = user.getUsername();
@@ -57,6 +69,11 @@ public class DataBaseModifier {
         addDataToAccountTable(data);
     }
 
+    /**
+     * This method will update the password in the database
+     * This is called from the Varun.java file
+     * Please make sure to authenticate user before calling this method
+     */
     public static void updatePassword(String username, String newPassword) {
         Connection con = ConnectionFactory.getConnection();
         String query = "UPDATE account SET password = ? WHERE username = ?";
@@ -82,6 +99,9 @@ public class DataBaseModifier {
         }
     }
 
+    /**
+     * This method is used to delete the records of a particular user
+     */
     public static void deleteAccount(String[] args) {
         Connection con = ConnectionFactory.getConnection();
         String query = "DELETE FROM account WHERE username = ? AND password = ?";
@@ -108,6 +128,10 @@ public class DataBaseModifier {
         }
     }
 
+    /**
+     * This method is used to update current account of the customer after the transaction
+     * It will update the User of type CurrentAccountUser
+     */
     public static void updateAccount(CurrentAccountUser obj) {
         Connection con = ConnectionFactory.getConnection();
         try {
@@ -144,6 +168,11 @@ public class DataBaseModifier {
         }
     }
 
+    /**
+     * This method is used to update current account of the customer after the transaction
+     * It will update the User of type SavingAccountUser
+     * This is an overridden method
+     */
     private static void updateAccount(SavingAccountUser obj) {
         Connection con = ConnectionFactory.getConnection();
         try {
@@ -180,6 +209,10 @@ public class DataBaseModifier {
         }
     }
 
+    /**
+     * This is the method used to withdraw money from the account
+     * Please make sure to authenticate user before using this method
+     */
     public static boolean withdraw(String[] args) {
         Object obj = SearchDataBase.searchUser(args[2]);
         if(obj.getClass().equals(CurrentAccountUser.class)) {
@@ -218,11 +251,18 @@ public class DataBaseModifier {
         return false;
     }
 
+    /**
+     * This is the method used to transfer money from the account
+     * Please make sure to authenticate user before using this method
+     */
     public static void transfer(String[] args) {
         withdraw(args);
         deposit(new String[]{null, null, args[5], args[4]});
     }
 
+    /**
+     * This is the method used to deposit money from the account
+     */
     public static boolean deposit(String[] args) {
         Object obj = SearchDataBase.searchUser(args[2]);
         if(obj.getClass().equals(CurrentAccountUser.class)) {
@@ -241,6 +281,9 @@ public class DataBaseModifier {
         return false;
     }
 
+    /**
+     * This method will add a new transaction to the transaction table in the database
+     */
     public static void addTransaction(Transaction transaction) {
         Connection con = ConnectionFactory.getConnection();
         String query = "INSERT INTO TRANSACTION (sender, receiver, transaction_date, amount, type)"

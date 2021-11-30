@@ -7,12 +7,18 @@ import java.sql.ResultSet;
 import individuals.Varun;
 import utils.database.ConnectionFactory;
 
+/**
+ * This is an abstract class which is used by another classes like CurrentAccount and SavingAccount
+ */
 public abstract class Account {
     private String accountNumber;
     private double balance;
     private String name;
     private String gender;
 
+    /**
+     * Getters and setters
+     */
     public String getName() {
         return name;
     }
@@ -45,6 +51,9 @@ public abstract class Account {
         this.balance = balance;
     }
 
+    /*
+     * Constructor
+     */
     public Account(String accountNumber, double balance, String name, String gender) {
         this.accountNumber = accountNumber;
         this.balance = balance;
@@ -52,8 +61,14 @@ public abstract class Account {
         this.gender = gender;
     }
 
+    /**
+     * Abstract method which will we modified according to the need
+     */
     public abstract void addInterest();
 
+    /**
+     * This method generated unique random account number
+     */
     public static String generateAccountNumber() {
         long accNumber = Math.round(Math.random() * 1000000 + 1);
         String acc = Long.toString(accNumber);
@@ -64,6 +79,9 @@ public abstract class Account {
         return acc;
     }
 
+    /**
+     * This method verifies the uniqueness of the account number
+     */
     private static boolean isValidAccountNumber(String acc) {
         Connection con = ConnectionFactory.getConnection();
         String query = "SELECT * FROM account";

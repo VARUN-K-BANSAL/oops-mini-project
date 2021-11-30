@@ -3,11 +3,18 @@ package utils;
 import utils.helpers.Account;
 import utils.helpers.CurrentAccount;
 
+/**
+ * CurrentAccountUser class
+ * It has a username, password and an blank Object of type CurrentAccount
+ */
 public class CurrentAccountUser {
     private String username;
     private String password;
     private CurrentAccount account = new CurrentAccount();
 
+    /**
+     * Constructor with arguments
+     */
     public CurrentAccountUser(String name, String gender, String username, String password, double balance) {
         this.username = username;
         this.password = password;
@@ -17,6 +24,9 @@ public class CurrentAccountUser {
         this.account.setGender(gender);
     }
 
+    /**
+     * Overridden toString method for beautifully printing the Object
+     */
     @Override
     public String toString() {
         return "-------------------------------------------------------------------------\n" 
@@ -29,6 +39,9 @@ public class CurrentAccountUser {
                  + "\n-------------------------------------------------------------------------";
     }
 
+    /**
+     * Getters and Setters
+     */
     public CurrentAccount getAccount() {
         return account;
     }
