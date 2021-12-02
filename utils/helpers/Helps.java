@@ -11,6 +11,7 @@ public class Helps {
         System.out.println("  -s\tfor searching details about users, transactions etc");
         System.out.println("  -d\tfor deleting the account");
         System.out.println("  -tr\tfor doing the transaction");
+        System.out.println("  -sort\tfor printing users in sorted order of their name");
         System.out.println("  -h\tfor the commands help");
         System.out.println("  \tTo get help of any command just enter the command");
         System.out.println("-------------------------------------------------------------------");
@@ -57,7 +58,7 @@ public class Helps {
         System.out.println("  \t\t\tArguments");
         System.out.println("  \t\t1. -w for withdrawing, -d for deposit, -t for transferring");
         System.out.println("  \t\t2. Username of the account");
-        System.out.println("  \t\t3. Password of the account");
+        System.out.println("  \t\t3. Password of the account (no need for deposit ignore it)");
         System.out.println("  \t\t4. Amount of the account");
         System.out.println("  \t\t5. Username of reciever if applicable");
     }

@@ -253,11 +253,12 @@ public class DataBaseModifier {
 
     /**
      * This is the method used to transfer money from the account
-     * Please make sure to authenticate user before using this method
+     * No need to authenticate user before using this method
      */
     public static void transfer(String[] args) {
-        withdraw(args);
-        deposit(new String[]{null, null, args[5], args[4]});
+        if(withdraw(args)) {
+            deposit(new String[]{null, null, args[5], args[4]});
+        }
     }
 
     /**

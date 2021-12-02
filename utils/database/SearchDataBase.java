@@ -117,7 +117,7 @@ public class SearchDataBase {
         try(PreparedStatement stmt = con.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
-                if(rs.getString("account_holder_name").equals(name.toLowerCase())) {
+                if(rs.getString("account_holder_name").contains(name.toLowerCase())) {
                     isFound = true;
                     if(rs.getString("account_type").equalsIgnoreCase("CA")) {
                         CurrentAccountUser user = new CurrentAccountUser(rs.getString("account_holder_name"),
