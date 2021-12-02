@@ -16,11 +16,13 @@ import utils.helpers.Transaction;
 
 public class Varun {
     /**
-     * This is a basically a development purpose variable which will restrict the error
+     * This is a basically a development purpose variable which will restrict the
+     * error
      * While submitting make sure to make this inProduction = false
-     * By making this false it will not show detailed error, it will show some beautiful error message
+     * By making this false it will not show detailed error, it will show some
+     * beautiful error message
      */
-    final public static boolean inProduction = true;
+    final public static boolean inDevelopment = false;
 
     /**
      * Key and String for encrypting passwords
@@ -29,7 +31,8 @@ public class Varun {
     final private static String ALPHA = "qwertyuiopasdfghjklzxcvbnm";
 
     /**
-     * method for encrypting strings for storing username and passwords in encrypted form
+     * method for encrypting strings for storing username and passwords in encrypted
+     * form
      */
     public static String encryptString(String inputString) {
         String encryptedString = "";
@@ -46,7 +49,8 @@ public class Varun {
     /**
      * Method for creating new account
      * It will check the availability of the username as well
-     * It will create apprpriate object and add data to the database by using dataBaseModifier.java file
+     * It will create apprpriate object and add data to the database by using
+     * dataBaseModifier.java file
      */
     public static void createNewAccount(String[] args) throws IOException {
         String accType = args[1].toUpperCase();
@@ -56,15 +60,17 @@ public class Varun {
         String password = encryptString(args[5]);
         String openingBalance = args[6];
 
-        if(authenticateUsername(username)) {
+        if (authenticateUsername(username)) {
             System.out.println("Hi " + name + ", your account will be created in a moment");
-            if(accType.equals("CA")) {
-                CurrentAccountUser user = new CurrentAccountUser(name, gender, username, password, Integer.valueOf(openingBalance));
+            if (accType.equals("CA")) {
+                CurrentAccountUser user = new CurrentAccountUser(name, gender, username, password,
+                        Integer.valueOf(openingBalance));
                 DataBaseModifier.addDataToAccountTable(user);
                 System.out.println("Account created successfully");
                 System.out.println(user);
-            } else if(accType.equals("SA")) {
-                SavingAccountUser user = new SavingAccountUser(name, gender, username, password, Integer.valueOf(openingBalance));
+            } else if (accType.equals("SA")) {
+                SavingAccountUser user = new SavingAccountUser(name, gender, username, password,
+                        Integer.valueOf(openingBalance));
                 DataBaseModifier.addDataToAccountTable(user);
                 System.out.println("Account created successfully");
                 System.out.println(user);
@@ -85,15 +91,15 @@ public class Varun {
     private static boolean authenticateUsername(String username) {
         Connection con = ConnectionFactory.getConnection();
         String query = "SELECT username FROM account";
-        try(PreparedStatement stmt = con.prepareStatement(query)) {
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()) {
-                if(rs.getString("username").equals(username)) {
+            while (rs.next()) {
+                if (rs.getString("username").equals(username)) {
                     return false;
                 }
             }
-        } catch(Exception e) {
-            if(inProduction) {
+        } catch (Exception e) {
+            if (inDevelopment) {
                 e.printStackTrace();
             } else {
                 System.out.println("Some internal error occurred");
@@ -105,7 +111,8 @@ public class Varun {
 
     /**
      * Method for updating password
-     * After successful login using oldPassword this will update the password in database using DataBaseModifier.java file
+     * After successful login using oldPassword this will update the password in
+     * database using DataBaseModifier.java file
      */
     public static void updatePassword(String[] args) throws IOException {
         String username = args[1];
@@ -114,16 +121,16 @@ public class Varun {
 
         Connection con = ConnectionFactory.getConnection();
         String query = "SELECT * FROM account";
-        try(PreparedStatement stmt = con.prepareStatement(query)) {
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()) {
-                if((rs.getString("username").equals(username)) && (rs.getString("password").equals(oldPassword))) {
+            while (rs.next()) {
+                if ((rs.getString("username").equals(username)) && (rs.getString("password").equals(oldPassword))) {
                     DataBaseModifier.updatePassword(username, newPassword);
                     break;
                 }
             }
-        } catch(Exception e) {
-            if(inProduction) {
+        } catch (Exception e) {
+            if (inDevelopment) {
                 e.printStackTrace();
             } else {
                 System.out.println("Some error occurred while accessing the database");
@@ -137,21 +144,25 @@ public class Varun {
     }
 
     /**
-     * This method is used to execute transactions when a user wants to do transaction
+     * This method is used to execute transactions when a user wants to do
+     * transaction
      */
     public static void executeTransaction(String[] args) {
-        if(args[1].equals("-w")) {
-            DataBaseModifier.withdraw(args);
-            Transaction transaction = new Transaction(Integer.valueOf(args[4]), args[2], "SELF", "W");
-            DataBaseModifier.addTransaction(transaction);
-        } else if(args[1].equals("-d")) {
-            DataBaseModifier.deposit(args);
-            Transaction transaction = new Transaction(Integer.valueOf(args[3]), args[2], "SELF", "D");
-            DataBaseModifier.addTransaction(transaction);
-        } else if(args[1].equals("-t")) {
-            DataBaseModifier.transfer(args);
-            Transaction transaction = new Transaction(Integer.valueOf(args[4]), args[2], args[5], "T");
-            DataBaseModifier.addTransaction(transaction);
+        if (args[1].equals("-w")) {
+            if(DataBaseModifier.withdraw(args)) {
+                Transaction transaction = new Transaction(Integer.valueOf(args[4]), args[2], "SELF", "W");
+                DataBaseModifier.addTransaction(transaction);
+            }
+        } else if (args[1].equals("-d")) {
+            if(DataBaseModifier.deposit(args)) {
+                Transaction transaction = new Transaction(Integer.valueOf(args[3]), args[2], "SELF", "D");
+                DataBaseModifier.addTransaction(transaction);
+            }
+        } else if (args[1].equals("-t")) {
+            if(DataBaseModifier.transfer(args)) {
+                Transaction transaction = new Transaction(Integer.valueOf(args[4]), args[2], args[5], "T");
+                DataBaseModifier.addTransaction(transaction);
+            }
         } else {
             System.out.println("Invalid Input");
             Helps.transactionHelp();
@@ -159,28 +170,30 @@ public class Varun {
     }
 
     /**
-     * This method is used when the user wants to search for a user or transaction (-s case)
-     * -u for username using SearchDataBase.java file and if someone will add -d then it will also print the transaction
+     * This method is used when the user wants to search for a user or transaction
+     * (-s case)
+     * -u for username using SearchDataBase.java file and if someone will add -d
+     * then it will also print the transaction
      * -a for searching using account number
      * -n for searching using customer name
      * -t for searching of a transaction using its transaction id
      */
     public static void searchUser(String[] args) {
-        if(args[1].equals("-u")) {
+        if (args[1].equals("-u")) {
             Object obj = SearchDataBase.searchUser(args[2]);
-            if(obj != null) {
+            if (obj != null) {
                 System.out.println(obj);
-                if(args.length >= 4) {
-                    if(args[3].equals("-d")) {
+                if (args.length >= 4) {
+                    if (args[3].equals("-d")) {
                         SearchDataBase.printTransactions(args[2]);
                     }
                 }
             }
-        } else if(args[1].equals("-a")) {
+        } else if (args[1].equals("-a")) {
             SearchDataBase.searchUserByAccountNumber(args[2]);
-        } else if(args[1].equals("-n")) {
+        } else if (args[1].equals("-n")) {
             SearchDataBase.searchUserByName(args[2]);
-        } else if(args[1].equals("-t")) {
+        } else if (args[1].equals("-t")) {
             SearchDataBase.searchTransaction(args[2]);
         } else {
             System.out.println("Invalid Input");

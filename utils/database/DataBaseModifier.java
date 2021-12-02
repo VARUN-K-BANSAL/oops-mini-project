@@ -28,7 +28,7 @@ public class DataBaseModifier {
             stmt.setString(7, data[6]);
             stmt.executeUpdate();
         } catch (Exception e) {
-            if(Varun.inProduction) {
+            if (Varun.inDevelopment) {
                 e.printStackTrace();
             } else {
                 System.out.println("Unable to add data to the database....");
@@ -38,7 +38,8 @@ public class DataBaseModifier {
     }
 
     /**
-     * This method is also used to add data into account table using an object of type CurrentAccountUser
+     * This method is also used to add data into account table using an object of
+     * type CurrentAccountUser
      * This is an overridden method
      */
     public static void addDataToAccountTable(CurrentAccountUser user) {
@@ -54,7 +55,8 @@ public class DataBaseModifier {
     }
 
     /**
-     * This method is also used to add data into account table using an object of type SavingAccountUser
+     * This method is also used to add data into account table using an object of
+     * type SavingAccountUser
      * This is also an overridden method
      */
     public static void addDataToAccountTable(SavingAccountUser user) {
@@ -81,21 +83,24 @@ public class DataBaseModifier {
             statement2.setString(1, newPassword);
             statement2.setString(2, username);
             if (statement2.executeUpdate() != 0) {
-                System.out.println("Password for " + username +" has been updated Successfully");
+                System.out.println("Password for " + username + " has been updated Successfully");
             } else {
                 System.out.println("Unable to update password");
             }
         } catch (Exception e) {
-            if(Varun.inProduction) {
+            if (Varun.inDevelopment) {
                 e.printStackTrace();
             } else {
                 System.out.println("Some internal error occured");
             }
         }
-        try {
-            con.close();
-        } catch (SQLException e) {
-            // e.printStackTrace();
+        if (con != null) {
+            try {
+                con.commit();
+                con.close();
+            } catch (SQLException e) {
+                // e.printStackTrace();
+            }
         }
     }
 
@@ -105,31 +110,34 @@ public class DataBaseModifier {
     public static void deleteAccount(String[] args) {
         Connection con = ConnectionFactory.getConnection();
         String query = "DELETE FROM account WHERE username = ? AND password = ?";
-        try(PreparedStatement stmt = con.prepareStatement(query)) {
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, args[1]);
             stmt.setString(2, Varun.encryptString(args[2]));
             int rowsUpdated = stmt.executeUpdate();
-            if(rowsUpdated != 0) {
+            if (rowsUpdated != 0) {
                 System.out.println("Account deleted successfully");
             } else {
                 System.out.println("Cannot delete the account");
             }
         } catch (Exception e) {
-            if(Varun.inProduction) {
+            if (Varun.inDevelopment) {
                 e.printStackTrace();
             } else {
                 System.out.println("Some internal error occurred");
             }
         }
-        try {
-            con.close();
-        } catch (SQLException e) {
-            // e.printStackTrace();
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                // e.printStackTrace();
+            }
         }
     }
 
     /**
-     * This method is used to update current account of the customer after the transaction
+     * This method is used to update current account of the customer after the
+     * transaction
      * It will update the User of type CurrentAccountUser
      */
     public static void updateAccount(CurrentAccountUser obj) {
@@ -144,32 +152,37 @@ public class DataBaseModifier {
             statement2.setDouble(1, obj.getAccount().getBalance());
             statement2.setString(2, obj.getUsername());
             statement2.executeUpdate();
-            if(DatabaseCreator.isInitialising() == false){
+            if (DatabaseCreator.isInitialising() == false) {
                 System.out.println("Transaction successful...");
                 System.out.println("Current balance : " + obj.getAccount().getBalance());
             }
         } catch (Exception e) {
-            try {
-                con.rollback();
-            } catch (SQLException e1) {
-                // e1.printStackTrace();
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException e1) {
+                    // e1.printStackTrace();
+                }
             }
-            if(Varun.inProduction) {
+            if (Varun.inDevelopment) {
                 e.printStackTrace();
             } else {
                 System.out.println("Some internal error occured");
             }
         }
-        try {
-            con.commit();
-            con.close();
-        } catch (SQLException e) {
-            // e.printStackTrace();
+        if (con != null) {
+            try {
+                con.commit();
+                con.close();
+            } catch (SQLException e) {
+                // e.printStackTrace();
+            }
         }
     }
 
     /**
-     * This method is used to update current account of the customer after the transaction
+     * This method is used to update current account of the customer after the
+     * transaction
      * It will update the User of type SavingAccountUser
      * This is an overridden method
      */
@@ -185,27 +198,31 @@ public class DataBaseModifier {
             statement2.setDouble(1, obj.getAccount().getBalance());
             statement2.setString(2, obj.getUsername());
             statement2.executeUpdate();
-            if(DatabaseCreator.isInitialising() == false){
+            if (DatabaseCreator.isInitialising() == false) {
                 System.out.println("Transaction successful...");
                 System.out.println("Current balance : " + obj.getAccount().getBalance());
             }
         } catch (Exception e) {
-            try {
-                con.rollback();
-            } catch (SQLException e1) {
-                // e1.printStackTrace();
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException e1) {
+                    // e1.printStackTrace();
+                }
             }
-            if(Varun.inProduction) {
+            if (Varun.inDevelopment) {
                 e.printStackTrace();
             } else {
                 System.out.println("Some internal error occured");
             }
         }
-        try {
-            con.commit();
-            con.close();
-        } catch (SQLException e) {
-            // e.printStackTrace();
+        if (con != null) {
+            try {
+                con.commit();
+                con.close();
+            } catch (SQLException e) {
+                // e.printStackTrace();
+            }
         }
     }
 
@@ -215,36 +232,44 @@ public class DataBaseModifier {
      */
     public static boolean withdraw(String[] args) {
         Object obj = SearchDataBase.searchUser(args[2]);
-        if(obj.getClass().equals(CurrentAccountUser.class)) {
-            if(((CurrentAccountUser) obj).getPassword().equals(Varun.encryptString(args[3]))) {
+        if (obj.getClass().equals(CurrentAccountUser.class)) {
+            if (((CurrentAccountUser) obj).getPassword().equals(Varun.encryptString(args[3]))) {
                 double currBal = ((CurrentAccountUser) obj).getAccount().getBalance();
-                if(currBal > Double.valueOf(args[4])) {
+                if (currBal > Double.valueOf(args[4])) {
                     currBal = currBal - Double.valueOf(args[4]);
                     ((CurrentAccountUser) obj).getAccount().setBalance(currBal);
+                    if (DatabaseCreator.isInitialising() == false) {
+                        System.out.println(Double.valueOf(args[4]) + "/- deducted succesfully");
+                    }
                 } else {
                     System.out.println("Insufficient balance | Current balance : " + currBal);
                     return false;
                 }
+                updateAccount((CurrentAccountUser) obj);
+                return true;
             } else {
                 System.out.println("Invalid Username or password");
                 return false;
             }
-            updateAccount((CurrentAccountUser) obj);
-        } else if(obj.getClass().equals(SavingAccountUser.class)) {
-            if(((SavingAccountUser) obj).getPassword().equals(Varun.encryptString(args[3]))) {
+        } else if (obj.getClass().equals(SavingAccountUser.class)) {
+            if (((SavingAccountUser) obj).getPassword().equals(Varun.encryptString(args[3]))) {
                 double currBal = ((SavingAccountUser) obj).getAccount().getBalance();
-                if(currBal > Double.valueOf(args[4])) {
+                if (currBal > Double.valueOf(args[4])) {
                     currBal = currBal - Double.valueOf(args[4]);
                     ((SavingAccountUser) obj).getAccount().setBalance(currBal);
+                    if (DatabaseCreator.isInitialising() == false) {
+                        System.out.println(Double.valueOf(args[4]) + "/- deducted succesfully");
+                    }
                 } else {
                     System.out.println("Insufficient balance | Current balance : " + currBal);
                     return false;
                 }
+                updateAccount((SavingAccountUser) obj);
+                return true;
             } else {
                 System.out.println("Invalid Username or password");
                 return false;
             }
-            updateAccount((SavingAccountUser) obj);
         } else {
             System.out.println("Some internal error occurred");
         }
@@ -255,10 +280,13 @@ public class DataBaseModifier {
      * This is the method used to transfer money from the account
      * No need to authenticate user before using this method
      */
-    public static void transfer(String[] args) {
-        if(withdraw(args)) {
-            deposit(new String[]{null, null, args[5], args[4]});
+    public static boolean transfer(String[] args) {
+        if (withdraw(args)) {
+            if(deposit(new String[] { null, null, args[5], args[4] })) {
+                return true;
+            }
         }
+        return false;
     }
 
     /**
@@ -266,16 +294,24 @@ public class DataBaseModifier {
      */
     public static boolean deposit(String[] args) {
         Object obj = SearchDataBase.searchUser(args[2]);
-        if(obj.getClass().equals(CurrentAccountUser.class)) {
+        if (obj.getClass().equals(CurrentAccountUser.class)) {
             double currBal = ((CurrentAccountUser) obj).getAccount().getBalance();
             currBal = currBal + Double.valueOf(args[3]);
             ((CurrentAccountUser) obj).getAccount().setBalance(currBal);
+            if (DatabaseCreator.isInitialising() == false) {
+                System.out.println(Double.valueOf(args[3]) + "/- deposited succesfully");
+            }
             updateAccount((CurrentAccountUser) obj);
-        } else if(obj.getClass().equals(SavingAccountUser.class)) {
+            return true;
+        } else if (obj.getClass().equals(SavingAccountUser.class)) {
             double currBal = ((SavingAccountUser) obj).getAccount().getBalance();
             currBal = currBal + Double.valueOf(args[3]);
             ((SavingAccountUser) obj).getAccount().setBalance(currBal);
+            if (DatabaseCreator.isInitialising() == false) {
+                System.out.println(Double.valueOf(args[3]) + "/- deposited succesfully");
+            }
             updateAccount((SavingAccountUser) obj);
+            return true;
         } else {
             System.out.println("Some internal error occurred");
         }
@@ -283,45 +319,50 @@ public class DataBaseModifier {
     }
 
     /**
-     * This method will add a new transaction to the transaction table in the database
+     * This method will add a new transaction to the transaction table in the
+     * database
      */
     public static void addTransaction(Transaction transaction) {
         Connection con = ConnectionFactory.getConnection();
         String query = "INSERT INTO TRANSACTION (sender, receiver, transaction_date, amount, type)"
-                        + "VALUES (?, ?, ?, ?, ?)";
+                + "VALUES (?, ?, ?, ?, ?)";
 
         try {
             con.setAutoCommit(false);
         } catch (SQLException e1) {
             // e1.printStackTrace();
         }
-        try(PreparedStatement stmt = con.prepareStatement(query)) {
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setString(1, transaction.getSender());
             stmt.setString(2, transaction.getReceiver());
             stmt.setString(3, transaction.getDate());
             stmt.setInt(4, transaction.getAmount());
             stmt.setString(5, transaction.getTypeOfTransaction());
             stmt.executeUpdate();
-            if(DatabaseCreator.isInitialising() == false) {
+            if (DatabaseCreator.isInitialising() == false) {
                 System.out.println("Transaction Successful");
             }
-        } catch(Exception e) {
-            try {
-                con.rollback();
-            } catch (SQLException e1) {
-                // e1.printStackTrace();
+        } catch (Exception e) {
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException e1) {
+                    // e1.printStackTrace();
+                }
             }
-            if(Varun.inProduction) {
+            if (Varun.inDevelopment) {
                 e.printStackTrace();
             } else {
                 System.out.println("Some error occurred");
             }
         }
-        try {
-            con.commit();
-            con.close();
-        } catch (SQLException e) {
-            // e.printStackTrace();
+        if (con != null) {
+            try {
+                con.commit();
+                con.close();
+            } catch (SQLException e) {
+                // e.printStackTrace();
+            }
         }
     }
 }

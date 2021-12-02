@@ -26,11 +26,11 @@ public class ConnectionFactory {
     }
 
     /**
-     * This method is used when we are initializing the program and we don't have the creds yet
+     * This method is used when we are initializing the program and we don't have
+     * the creds yet
      * So we will create the connection and save the creds for future works
      */
     public static Connection getConnection(String username, String password) {
-        saveCreds(username, password);
         Connection con = null;
         try {
             Properties connectionProperties = new Properties();
@@ -38,20 +38,22 @@ public class ConnectionFactory {
             connectionProperties.put("password", password);
             con = DriverManager.getConnection(URLWithoutDatabase, connectionProperties);
         } catch (Exception e) {
-            if(Varun.inProduction) {
+            if (Varun.inDevelopment) {
                 e.printStackTrace();
             } else {
                 System.out.println("Some internal error occurred");
             }
         }
-
+        saveCreds(username, password);
         return con;
     }
 
     /**
      * Saving the credentials to SQLCreds.csv file
-     * They are stored so that we need not to put the username and password in each and every instruction
-     * This method will automatically create a file name SQLCreds.csv if that does not exist
+     * They are stored so that we need not to put the username and password in each
+     * and every instruction
+     * This method will automatically create a file name SQLCreds.csv if that does
+     * not exist
      */
     private static void saveCreds(String username2, String password2) {
         Path path = Paths.get("data/SQLCreds.csv");
@@ -59,7 +61,7 @@ public class ConnectionFactory {
             try {
                 Files.writeString(path, username2 + "," + password2, StandardCharsets.US_ASCII);
             } catch (IOException e) {
-                if(Varun.inProduction) {
+                if (Varun.inDevelopment) {
                     e.printStackTrace();
                 } else {
                     System.out.println("Some internal error occurred");
@@ -69,7 +71,7 @@ public class ConnectionFactory {
             try {
                 Files.createFile(path);
             } catch (IOException e) {
-                if(Varun.inProduction) {
+                if (Varun.inDevelopment) {
                     e.printStackTrace();
                 } else {
                     System.out.println("Some internal error occurred");
@@ -80,8 +82,10 @@ public class ConnectionFactory {
 
     /**
      * This getConnection method is used after the initialisation of the program
-     * This contains a call to another method which is readCreds which will give the credentials to make the connection
-     * the credentials we get here are the one which we stored earlier through the saveCreds method
+     * This contains a call to another method which is readCreds which will give the
+     * credentials to make the connection
+     * the credentials we get here are the one which we stored earlier through the
+     * saveCreds method
      * This is the Overloaded method
      */
     public static Connection getConnection() {
@@ -95,14 +99,14 @@ public class ConnectionFactory {
                 con = DriverManager.getConnection(URL, connectionProperties);
                 return con;
             } catch (Exception e) {
-                if(Varun.inProduction) {
+                if (Varun.inDevelopment) {
                     e.printStackTrace();
                 } else {
                     System.out.println("Some internal error occurred");
                 }
             }
         } catch (IOException e1) {
-            if(Varun.inProduction) {
+            if (Varun.inDevelopment) {
                 e1.printStackTrace();
             } else {
                 System.out.println("Some internal error occurred");

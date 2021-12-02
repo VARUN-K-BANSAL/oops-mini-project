@@ -42,16 +42,17 @@ public class Transaction {
     /**
      * In this method we used an extra argument isPrinting boolean because
      * We need this function two times
-     * 1 - when storing data in database then we need this function to return 1 char ('W' or 'D' or 'T')
+     * 1 - when storing data in database then we need this function to return 1 char
+     * ('W' or 'D' or 'T')
      * 2 - when printing the transaction we need this function to return a word
      */
     public String getTypeOfTransaction(boolean isPrinting) {
-        if(isPrinting) {
-            if(this.typeOfTransaction.equals("W")) {
+        if (isPrinting) {
+            if (this.typeOfTransaction.equals("W")) {
                 return "Withdraw";
-            } else if(this.typeOfTransaction.equals("D")) {
+            } else if (this.typeOfTransaction.equals("D")) {
                 return "Deposit";
-            } else if(this.typeOfTransaction.equals("T")) {
+            } else if (this.typeOfTransaction.equals("T")) {
                 return "Transfer";
             }
         } else {
@@ -85,8 +86,10 @@ public class Transaction {
     }
 
     /**
-     * This Constructor is made for the case when we are retrieving data from database
-     * because in the other constructor the date is generated according to the system date and time
+     * This Constructor is made for the case when we are retrieving data from
+     * database
+     * because in the other constructor the date is generated according to the
+     * system date and time
      */
     public Transaction(String transactionId, String date, int amount, String sender, String receiver,
             String typeOfTransaction) {
@@ -100,7 +103,8 @@ public class Transaction {
 
     /**
      * This Constructor is made for the case when we are storing data in database
-     * because we need date and time here which we are taking current date and time of the system
+     * because we need date and time here which we are taking current date and time
+     * of the system
      */
     public Transaction(int amount, String sender, String receiver, String type) {
         this.date = getDateTime();

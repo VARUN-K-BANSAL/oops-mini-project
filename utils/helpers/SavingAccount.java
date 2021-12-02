@@ -3,8 +3,8 @@ package utils.helpers;
 /**
  * CurrentAccount class extending Account class
  */
-public class SavingAccount extends Account{
-    
+public class SavingAccount extends Account {
+
     private final static double interestRate = 5;
     private final static int maxLoanAmount = 2000;
 
@@ -41,6 +41,6 @@ public class SavingAccount extends Account{
      */
     @Override
     public void addInterest() {
-        this.setBalance(getBalance() + (this.getBalance()*interestRate)/100);
+        this.setBalance(getBalance() + (this.getBalance() * interestRate) / 100);
     }
 }

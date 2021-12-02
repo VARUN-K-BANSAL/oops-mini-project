@@ -17,7 +17,8 @@ public class SavingAccountUser {
     /**
      * Constructor with arguments
      */
-    public SavingAccountUser(String name, String gender, String username, String password, double balance) throws IOException {
+    public SavingAccountUser(String name, String gender, String username, String password, double balance)
+            throws IOException {
         this.username = username;
         this.password = password;
         this.account.setAccountNumber(Account.generateAccountNumber());
@@ -31,14 +32,14 @@ public class SavingAccountUser {
      */
     @Override
     public String toString() {
-        return "-------------------------------------------------------------------------\n" 
-                 +"Name : " + this.account.getName()
-                 + "\nUserName : " + this.getUsername()
-                 + "\nAccount Number : " + this.account.getAccountNumber()
-                 + "\nCurrent balance : " + this.account.getBalance()
-                 + "\nType of Account : Savings account"
-                 + "\nGender : " + this.account.getGender() 
-                 + "\n-------------------------------------------------------------------------";
+        return "-------------------------------------------------------------------------\n"
+                + "Name : " + this.account.getName()
+                + "\nUserName : " + this.getUsername()
+                + "\nAccount Number : " + this.account.getAccountNumber()
+                + "\nCurrent balance : " + this.account.getBalance()
+                + "\nType of Account : Savings account"
+                + "\nGender : " + this.account.getGender()
+                + "\n-------------------------------------------------------------------------";
     }
 
     /**

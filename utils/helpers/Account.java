@@ -8,7 +8,8 @@ import individuals.Varun;
 import utils.database.ConnectionFactory;
 
 /**
- * This is an abstract class which is used by another classes like CurrentAccount and SavingAccount
+ * This is an abstract class which is used by another classes like
+ * CurrentAccount and SavingAccount
  */
 public abstract class Account {
     private String accountNumber;
@@ -72,7 +73,7 @@ public abstract class Account {
     public static String generateAccountNumber() {
         long accNumber = Math.round(Math.random() * 1000000 + 1);
         String acc = Long.toString(accNumber);
-        while(!(isValidAccountNumber(acc))) {
+        while (!(isValidAccountNumber(acc))) {
             accNumber = Math.round(Math.random() * 1000000 + 1);
             acc = Long.toString(accNumber);
         }
@@ -85,15 +86,15 @@ public abstract class Account {
     private static boolean isValidAccountNumber(String acc) {
         Connection con = ConnectionFactory.getConnection();
         String query = "SELECT * FROM account";
-        try(PreparedStatement stmt = con.prepareStatement(query)) {
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()) {
-                 if(rs.getString("account_number").equals(acc)) {
-                     return false;
-                 }
+            while (rs.next()) {
+                if (rs.getString("account_number").equals(acc)) {
+                    return false;
+                }
             }
-        } catch(Exception e) {
-            if(Varun.inProduction) {
+        } catch (Exception e) {
+            if (Varun.inDevelopment) {
                 e.printStackTrace();
             } else {
                 System.out.println("Some internal error occurred");
