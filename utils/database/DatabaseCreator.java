@@ -23,7 +23,7 @@ public class DatabaseCreator {
      * This is private variable which represents whether the program is in
      * intialised mode or in the normal run
      */
-    private static boolean initialising = true;
+    private static boolean initialising = false;
 
     public static boolean isInitialising() {
         return initialising;
@@ -34,6 +34,7 @@ public class DatabaseCreator {
     }
 
     public static void programInit(String args[]) {
+        setInitialising(true);
         final String databaseName = "oops_mini_project_group_19_2021";
         final String createDatabaseQuery = "CREATE DATABASE " + databaseName;
 
@@ -58,7 +59,6 @@ public class DatabaseCreator {
                 // e.printStackTrace();
             }
         }
-        setInitialising(false);
     }
 
     /**

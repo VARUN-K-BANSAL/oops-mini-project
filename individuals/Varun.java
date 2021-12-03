@@ -22,7 +22,7 @@ public class Varun {
      * By making this false it will not show detailed error, it will show some
      * beautiful error message
      */
-    final public static boolean inDevelopment = false;
+    final public static boolean inDevelopment = true;
 
     /**
      * Key and String for encrypting passwords
@@ -129,6 +129,7 @@ public class Varun {
                     break;
                 }
             }
+            System.out.println("Invalid username or password");
         } catch (Exception e) {
             if (inDevelopment) {
                 e.printStackTrace();
