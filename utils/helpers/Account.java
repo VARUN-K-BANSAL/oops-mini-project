@@ -32,6 +32,15 @@ public abstract class Account {
         return gender;
     }
 
+    public String getGender(boolean isPrinting) {
+        if(gender.equals("M")) {
+            return "Male";
+        } else if(gender.equals("F")) {
+            return "Female";
+        }
+        return null;
+    }
+
     public void setGender(String gender) {
         this.gender = gender;
     }

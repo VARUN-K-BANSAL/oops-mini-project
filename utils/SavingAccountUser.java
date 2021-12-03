@@ -38,7 +38,7 @@ public class SavingAccountUser {
                 + "\nAccount Number : " + this.account.getAccountNumber()
                 + "\nCurrent balance : " + this.account.getBalance()
                 + "\nType of Account : Savings account"
-                + "\nGender : " + this.account.getGender()
+                + "\nGender : " + this.account.getGender(true)
                 + "\n-------------------------------------------------------------------------";
     }
 

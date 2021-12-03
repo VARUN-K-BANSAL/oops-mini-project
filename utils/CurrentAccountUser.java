@@ -35,7 +35,7 @@ public class CurrentAccountUser {
                 + "\nAccount Number : " + this.account.getAccountNumber()
                 + "\nCurrent balance : " + this.account.getBalance()
                 + "\nType of Account : Current account"
-                + "\nGender : " + this.account.getGender()
+                + "\nGender : " + this.account.getGender(true)
                 + "\n-------------------------------------------------------------------------";
     }
 
