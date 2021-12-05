@@ -102,8 +102,8 @@ public class Amogh {
      */
 
     private static String getAccountHolderName(String username) {
-        String name = new String();
-        Object obj = new Object();
+        String name = null;
+        Object obj;
         obj = SearchDataBase.searchUser(username);
         if(obj != null){
             if(obj.getClass().equals(CurrentAccountUser.class)){
@@ -125,7 +125,7 @@ public class Amogh {
      */
     private static void addLoanAmount(String username, double amount) {
         double balance = 0;
-        Object obj = new Object();
+        Object obj;
         obj = SearchDataBase.searchUser(username);
         if(obj != null){
             if(obj.getClass().equals(CurrentAccountUser.class)){

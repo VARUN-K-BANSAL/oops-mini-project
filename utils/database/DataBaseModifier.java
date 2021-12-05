@@ -257,46 +257,48 @@ public class DataBaseModifier {
      */
     public static boolean withdraw(String[] args) {
         Object obj = SearchDataBase.searchUser(args[2]);
-        if (obj.getClass().equals(CurrentAccountUser.class)) {
-            if (((CurrentAccountUser) obj).getPassword().equals(Varun.encryptString(args[3]))) {
-                double currBal = ((CurrentAccountUser) obj).getAccount().getBalance();
-                if (currBal > Double.valueOf(args[4])) {
-                    currBal = currBal - Double.valueOf(args[4]);
-                    ((CurrentAccountUser) obj).getAccount().setBalance(currBal);
-                    if (DatabaseCreator.isInitialising() == false) {
-                        System.out.println(Double.valueOf(args[4]) + "/- deducted succesfully");
+        if (obj != null) {
+            if (obj.getClass().equals(CurrentAccountUser.class)) {
+                if (((CurrentAccountUser) obj).getPassword().equals(Varun.encryptString(args[3]))) {
+                    double currBal = ((CurrentAccountUser) obj).getAccount().getBalance();
+                    if (currBal > Double.valueOf(args[4])) {
+                        currBal = currBal - Double.valueOf(args[4]);
+                        ((CurrentAccountUser) obj).getAccount().setBalance(currBal);
+                        if (DatabaseCreator.isInitialising() == false) {
+                            System.out.println(Double.valueOf(args[4]) + "/- deducted succesfully");
+                        }
+                    } else {
+                        System.out.println("Insufficient balance | Current balance : " + currBal);
+                        return false;
                     }
+                    updateAccount((CurrentAccountUser) obj);
+                    return true;
                 } else {
-                    System.out.println("Insufficient balance | Current balance : " + currBal);
+                    System.out.println("Invalid Username or password");
                     return false;
                 }
-                updateAccount((CurrentAccountUser) obj);
-                return true;
-            } else {
-                System.out.println("Invalid Username or password");
-                return false;
-            }
-        } else if (obj.getClass().equals(SavingAccountUser.class)) {
-            if (((SavingAccountUser) obj).getPassword().equals(Varun.encryptString(args[3]))) {
-                double currBal = ((SavingAccountUser) obj).getAccount().getBalance();
-                if (currBal > Double.valueOf(args[4])) {
-                    currBal = currBal - Double.valueOf(args[4]);
-                    ((SavingAccountUser) obj).getAccount().setBalance(currBal);
-                    if (DatabaseCreator.isInitialising() == false) {
-                        System.out.println(Double.valueOf(args[4]) + "/- deducted succesfully");
+            } else if (obj.getClass().equals(SavingAccountUser.class)) {
+                if (((SavingAccountUser) obj).getPassword().equals(Varun.encryptString(args[3]))) {
+                    double currBal = ((SavingAccountUser) obj).getAccount().getBalance();
+                    if (currBal > Double.valueOf(args[4])) {
+                        currBal = currBal - Double.valueOf(args[4]);
+                        ((SavingAccountUser) obj).getAccount().setBalance(currBal);
+                        if (DatabaseCreator.isInitialising() == false) {
+                            System.out.println(Double.valueOf(args[4]) + "/- deducted succesfully");
+                        }
+                    } else {
+                        System.out.println("Insufficient balance | Current balance : " + currBal);
+                        return false;
                     }
+                    updateAccount((SavingAccountUser) obj);
+                    return true;
                 } else {
-                    System.out.println("Insufficient balance | Current balance : " + currBal);
+                    System.out.println("Invalid Username or password");
                     return false;
                 }
-                updateAccount((SavingAccountUser) obj);
-                return true;
             } else {
-                System.out.println("Invalid Username or password");
-                return false;
+                System.out.println("Some internal error occurred");
             }
-        } else {
-            System.out.println("Some internal error occurred");
         }
         return false;
     }
@@ -410,7 +412,8 @@ public class DataBaseModifier {
                             stmt1.executeUpdate();
                             System.out.println("Loan amount left : " + amountLeft);
                         }
-                        Transaction transaction = new Transaction(Integer.valueOf(args[3]), rs.getString("username"), "BANK", "W");
+                        Transaction transaction = new Transaction(Integer.valueOf(args[3]), rs.getString("username"),
+                                "BANK", "W");
                         DataBaseModifier.addTransaction(transaction);
                         return true;
                     }

@@ -24,7 +24,7 @@ public class DatabaseCreator {
      * intialised mode or in the normal run
      */
     private static boolean initialising = false;
-    final static String databaseName = "oops_group_19";
+    final static String databaseName = "oops_mini_project_group_19_2021";
 
     public static boolean isInitialising() {
         return initialising;
@@ -77,6 +77,7 @@ public class DatabaseCreator {
                 lines = Files.readAllLines(path);
                 for (String line : lines) {
                     String usersData[] = line.split(",");
+                    usersData[1] = Varun.encryptString(usersData[1]);
                     DataBaseModifier.addDataToAccountTable(usersData);
                 }
             } catch (IOException e) {

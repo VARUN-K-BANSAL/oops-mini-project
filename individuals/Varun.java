@@ -121,15 +121,19 @@ public class Varun {
 
         Connection con = ConnectionFactory.getConnection();
         String query = "SELECT * FROM account";
+        boolean isFound = false;
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 if ((rs.getString("username").equals(username)) && (rs.getString("password").equals(oldPassword))) {
+                    isFound = true;
                     DataBaseModifier.updatePassword(username, newPassword);
                     break;
                 }
             }
-            System.out.println("Invalid username or password");
+            if(!isFound) {
+                System.out.println("Invalid username or password");
+            }
         } catch (Exception e) {
             if (inDevelopment) {
                 e.printStackTrace();
