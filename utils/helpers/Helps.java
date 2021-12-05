@@ -96,6 +96,9 @@ public class Helps {
         System.out.println("  \t\t3. Password of the account (no need for deposit ignore it)");
         System.out.println("  \t\t4. Amount of the account");
         System.out.println("  \t\t5. Username of reciever if applicable");
+        System.out.println("  \n\t\t1. -lr for loan repayment");
+        System.out.println("  \t\t2. Loan id of Loan account");
+        System.out.println("  \t\t3. Amount you want to deposit");
     }
 
     public static void sortHelp() {

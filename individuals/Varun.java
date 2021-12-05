@@ -150,24 +150,22 @@ public class Varun {
      */
     public static void executeTransaction(String[] args) {
         if (args[1].equals("-w")) {
-            if(DataBaseModifier.withdraw(args)) {
+            if (DataBaseModifier.withdraw(args)) {
                 Transaction transaction = new Transaction(Integer.valueOf(args[4]), args[2], "SELF", "W");
                 DataBaseModifier.addTransaction(transaction);
             }
         } else if (args[1].equals("-d")) {
-            if(DataBaseModifier.deposit(args)) {
+            if (DataBaseModifier.deposit(args)) {
                 Transaction transaction = new Transaction(Integer.valueOf(args[3]), args[2], "SELF", "D");
                 DataBaseModifier.addTransaction(transaction);
             }
         } else if (args[1].equals("-t")) {
-            if(DataBaseModifier.transfer(args)) {
+            if (DataBaseModifier.transfer(args)) {
                 Transaction transaction = new Transaction(Integer.valueOf(args[4]), args[2], args[5], "T");
                 DataBaseModifier.addTransaction(transaction);
             }
         } else if (args[1].equals("-lr")) {
-            if(DataBaseModifier.repayLoan(args)) {
-                
-            }
+            DataBaseModifier.repayLoan(args);
         } else {
             System.out.println("Invalid Input");
             Helps.transactionHelp();
@@ -201,10 +199,10 @@ public class Varun {
             SearchDataBase.searchUserByName(args[2]);
         } else if (args[1].equals("-t")) {
             SearchDataBase.searchTransaction(args[2]);
-        } else if(args[1].equals("-ta")) {
-            if(args[2].equals("-gt")) {
+        } else if (args[1].equals("-ta")) {
+            if (args[2].equals("-gt")) {
                 SearchDataBase.searchTransaction(Integer.valueOf(args[3]), true);
-            } else if(args[2].equals("-lt")) {
+            } else if (args[2].equals("-lt")) {
                 SearchDataBase.searchTransaction(Integer.valueOf(args[3]), false);
             }
         } else {
@@ -214,10 +212,10 @@ public class Varun {
 
     public static void addTransactionForLoan(Object obj, Double amount) {
         Transaction transaction = new Transaction(amount.intValue(), "BANK", "", "D");
-        if(obj.getClass().equals(CurrentAccountUser.class)) {
-            transaction.setReceiver(((CurrentAccountUser)obj).getUsername());
+        if (obj.getClass().equals(CurrentAccountUser.class)) {
+            transaction.setReceiver(((CurrentAccountUser) obj).getUsername());
         } else {
-            transaction.setReceiver(((SavingAccountUser)obj).getUsername());
+            transaction.setReceiver(((SavingAccountUser) obj).getUsername());
         }
         DataBaseModifier.addTransaction(transaction);
     }

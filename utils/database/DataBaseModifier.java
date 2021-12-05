@@ -78,16 +78,16 @@ public class DataBaseModifier {
     public static void addDataToLoanTable(String data[]) {
         Connection con = ConnectionFactory.getConnection();
         String insertQuery = "INSERT INTO loan (username, borrower_name, loan_type, loan_amount)"
-                             + "VALUES(?,?,?,?)";
-        
-        try (PreparedStatement stmt = con.prepareStatement(insertQuery)){
+                + "VALUES(?,?,?,?)";
+
+        try (PreparedStatement stmt = con.prepareStatement(insertQuery)) {
             stmt.setString(1, data[0]);
             stmt.setString(2, data[1]);
             stmt.setString(3, data[2]);
             stmt.setDouble(4, Double.valueOf(data[3]));
-            stmt.executeUpdate();    
+            stmt.executeUpdate();
         } catch (Exception e) {
-            if(Varun.inDevelopment) {
+            if (Varun.inDevelopment) {
                 e.printStackTrace();
             } else {
                 System.out.println("Unable to add data to the database....");
@@ -95,7 +95,7 @@ public class DataBaseModifier {
             return;
         }
     }
-    
+
     /**
      * This method will update the password in the database
      * This is called from the Varun.java file
@@ -307,7 +307,7 @@ public class DataBaseModifier {
      */
     public static boolean transfer(String[] args) {
         if (withdraw(args)) {
-            if(deposit(new String[] { null, null, args[5], args[4] })) {
+            if (deposit(new String[] { null, null, args[5], args[4] })) {
                 return true;
             }
         }
@@ -394,14 +394,14 @@ public class DataBaseModifier {
     public static boolean repayLoan(String[] args) {
         Connection con = ConnectionFactory.getConnection();
         String searchQuery = "SELECT * FROM loan";
-        try(PreparedStatement stmt = con.prepareStatement(searchQuery)) {
+        try (PreparedStatement stmt = con.prepareStatement(searchQuery)) {
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()) {
-                if(rs.getInt("loan_id") == Integer.valueOf(args[2])) {
+            while (rs.next()) {
+                if (rs.getInt("loan_id") == Integer.valueOf(args[2])) {
                     String updateQuery = "UPDATE loan SET loan_amount = ? WHERE loan_id = ?";
-                    try(PreparedStatement stmt1 = con.prepareStatement(updateQuery)) {
+                    try (PreparedStatement stmt1 = con.prepareStatement(updateQuery)) {
                         Double amountLeft = ((rs.getDouble("loan_amount")) - (Double.valueOf(args[3])));
-                        if(amountLeft <= 0) {
+                        if (amountLeft <= 0) {
                             deleteLoanAccount(args[2]);
                             System.out.println("Loan Cleared");
                         } else {
@@ -410,15 +410,23 @@ public class DataBaseModifier {
                             stmt1.executeUpdate();
                             System.out.println("Loan amount left : " + amountLeft);
                         }
+                        Transaction transaction = new Transaction(Integer.valueOf(args[3]), rs.getString("username"), "BANK", "W");
+                        DataBaseModifier.addTransaction(transaction);
+                        return true;
                     }
                 }
             }
         } catch (Exception e) {
-            if(Varun.inDevelopment) {
+            if (Varun.inDevelopment) {
                 e.printStackTrace();
             } else {
                 System.out.println("Some internal error occurred");
             }
+        }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            // e.printStackTrace();
         }
         return false;
     }
@@ -426,11 +434,11 @@ public class DataBaseModifier {
     private static void deleteLoanAccount(String string) {
         Connection con = ConnectionFactory.getConnection();
         String query = "DELETE FROM loan WHERE loan_id = ?";
-        try(PreparedStatement stmt = con.prepareStatement(query)) {
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, Integer.valueOf(string));
             stmt.executeUpdate();
         } catch (Exception e) {
-            if(Varun.inDevelopment) {
+            if (Varun.inDevelopment) {
                 e.printStackTrace();
             } else {
                 System.out.println("Some internal error occurred");

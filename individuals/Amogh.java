@@ -2,6 +2,7 @@ package individuals;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import utils.CurrentAccountUser;
 import utils.SavingAccountUser;
@@ -151,6 +152,11 @@ public class Amogh {
                 } else {
                     System.out.println("Unable to update balance.");
                 }
+            }
+            try {
+                con.close();
+            } catch (SQLException e) {
+                // e.printStackTrace();
             }
         }      
     }
