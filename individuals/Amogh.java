@@ -135,9 +135,11 @@ public class Amogh {
             if(obj.getClass().equals(CurrentAccountUser.class)){
                 CurrentAccountUser user = (CurrentAccountUser) obj;
                 balance = user.getAccount().getBalance();  
+                ((CurrentAccountUser)obj).getAccount().setBalance(balance + amount);
             } else if(obj.getClass().equals(SavingAccountUser.class)){
                 SavingAccountUser user = (SavingAccountUser) obj;
                 balance = user.getAccount().getBalance();
+                ((SavingAccountUser)obj).getAccount().setBalance(balance + amount);
             }
 
             Connection con = ConnectionFactory.getConnection();
@@ -147,6 +149,7 @@ public class Amogh {
                 stmt.setString(2,username);
                 stmt.executeUpdate();
                 System.out.println("Loan Amount is added to your account");
+                Varun.addTransactionForLoan(obj, amount);
             } catch (Exception e) {
                 if(Varun.inDevelopment){
                     e.printStackTrace();

@@ -215,8 +215,7 @@ public class DatabaseCreator {
                 + "transaction_date DATETIME NOT NULL,"
                 + "amount INT NOT NULL,"
                 + "type VARCHAR(2) NOT NULL,"
-                + "PRIMARY KEY(transaction_id),"
-                + "FOREIGN KEY(sender) REFERENCES account(username))";
+                + "PRIMARY KEY(transaction_id))";
 
         try (PreparedStatement stmt = con.prepareStatement(transactionTableQuery)) {
             stmt.executeUpdate();

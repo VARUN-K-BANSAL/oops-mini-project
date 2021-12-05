@@ -200,4 +200,14 @@ public class Varun {
             System.out.println("Invalid Input");
         }
     }
+
+    public static void addTransactionForLoan(Object obj, Double amount) {
+        Transaction transaction = new Transaction(amount.intValue(), "BANK", "", "D");
+        if(obj.getClass().equals(CurrentAccountUser.class)) {
+            transaction.setReceiver(((CurrentAccountUser)obj).getUsername());
+        } else {
+            transaction.setReceiver(((SavingAccountUser)obj).getUsername());
+        }
+        DataBaseModifier.addTransaction(transaction);
+    }
 }
