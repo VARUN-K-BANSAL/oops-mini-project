@@ -86,17 +86,17 @@ public class LoanAccount extends Account {
     @Override
     public void addInterest() {
         if (this.loan_type.equals("EL")) {
-            this.setLoan_amount(getLoan_amount() + this.getLoan_amount() * interestRateEL);
+            this.setLoan_amount(getLoan_amount() + (this.getLoan_amount() * interestRateEL)/100);
         } else if (this.loan_type.equals("AL")) {
-            this.setLoan_amount(getLoan_amount() + this.getLoan_amount() * interestRateAL);
+            this.setLoan_amount(getLoan_amount() + (this.getLoan_amount() * interestRateAL)/100);
         } else if (this.loan_type.equals("PL")) {
-            this.setLoan_amount(getLoan_amount() + this.getLoan_amount() * interestRatePL);
+            this.setLoan_amount(getLoan_amount() + (this.getLoan_amount() * interestRatePL)/100);
         }
     }
 
     @Override
     public String toString() {
-        return "\n---------------------------------------------------------\n"  
+        return "---------------------------------------------------------\n"  
                 + " username = " + username + "\n" 
                 + " borrower_name = " + borrower_name + "\n"
                 + " loan_type = "+ loan_type + "\n" 
