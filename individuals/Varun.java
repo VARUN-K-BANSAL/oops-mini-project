@@ -164,6 +164,10 @@ public class Varun {
                 Transaction transaction = new Transaction(Integer.valueOf(args[4]), args[2], args[5], "T");
                 DataBaseModifier.addTransaction(transaction);
             }
+        } else if (args[1].equals("-lr")) {
+            if(DataBaseModifier.repayLoan(args)) {
+                
+            }
         } else {
             System.out.println("Invalid Input");
             Helps.transactionHelp();
@@ -178,6 +182,7 @@ public class Varun {
      * -a for searching using account number
      * -n for searching using customer name
      * -t for searching of a transaction using its transaction id
+     * -ta for searching of a transaction using its transaction amount
      */
     public static void search(String[] args) {
         if (args[1].equals("-u")) {

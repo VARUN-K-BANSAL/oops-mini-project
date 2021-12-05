@@ -2,6 +2,7 @@ package utils.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import individuals.Varun;
@@ -386,6 +387,53 @@ public class DataBaseModifier {
                 con.close();
             } catch (SQLException e) {
                 // e.printStackTrace();
+            }
+        }
+    }
+
+    public static boolean repayLoan(String[] args) {
+        Connection con = ConnectionFactory.getConnection();
+        String searchQuery = "SELECT * FROM loan";
+        try(PreparedStatement stmt = con.prepareStatement(searchQuery)) {
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                if(rs.getInt("loan_id") == Integer.valueOf(args[2])) {
+                    String updateQuery = "UPDATE loan SET loan_amount = ? WHERE loan_id = ?";
+                    try(PreparedStatement stmt1 = con.prepareStatement(updateQuery)) {
+                        Double amountLeft = ((rs.getDouble("loan_amount")) - (Double.valueOf(args[3])));
+                        if(amountLeft <= 0) {
+                            deleteLoanAccount(args[2]);
+                            System.out.println("Loan Cleared");
+                        } else {
+                            stmt1.setDouble(1, amountLeft);
+                            stmt1.setInt(2, rs.getInt("loan_id"));
+                            stmt1.executeUpdate();
+                            System.out.println("Loan amount left : " + amountLeft);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            if(Varun.inDevelopment) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occurred");
+            }
+        }
+        return false;
+    }
+
+    private static void deleteLoanAccount(String string) {
+        Connection con = ConnectionFactory.getConnection();
+        String query = "DELETE FROM loan WHERE loan_id = ?";
+        try(PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, Integer.valueOf(string));
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            if(Varun.inDevelopment) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occurred");
             }
         }
     }
