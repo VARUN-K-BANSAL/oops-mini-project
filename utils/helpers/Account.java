@@ -9,7 +9,7 @@ import utils.database.ConnectionFactory;
 
 /**
  * This is an abstract class which is used by another classes like
- * CurrentAccount and SavingAccount
+ * CurrentAccount and SavingAccount and Loan
  */
 public abstract class Account {
     private String accountNumber;
