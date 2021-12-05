@@ -22,7 +22,7 @@ public class Varun {
      * By making this false it will not show detailed error, it will show some
      * beautiful error message
      */
-    final public static boolean inDevelopment = true;
+    final public static boolean inDevelopment = false;
 
     /**
      * Key and String for encrypting passwords

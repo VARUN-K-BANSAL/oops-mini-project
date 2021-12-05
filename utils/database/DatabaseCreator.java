@@ -24,7 +24,7 @@ public class DatabaseCreator {
      * intialised mode or in the normal run
      */
     private static boolean initialising = false;
-    final static String databaseName = "oops_mini_project_group_19_2021";
+    final static String databaseName = "oops_group_19";
 
     public static boolean isInitialising() {
         return initialising;
