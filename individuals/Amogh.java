@@ -1,9 +1,7 @@
 package individuals;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 import utils.CurrentAccountUser;
 import utils.SavingAccountUser;
@@ -19,14 +17,11 @@ public class Amogh {
      * It adds data to the database by using dataBaseModifier.java file
      *
      */ 
-
-    public static void createLoanAccount(String[] args) throws IOException{
-
+    public static void createLoanAccount(String[] args) {
         /**
          * if user provides username i.e. already an account.
          * It will be linked will loan account.
          */ 
-        
         if (args[1].equals("Y")){
             String [] data = new String[4];
             data[0] = args[2];  // username
@@ -41,10 +36,10 @@ public class Amogh {
                         LoanAccount user = new LoanAccount(data);
                         System.out.println(user); 
                         System.out.println("Your loan has been approved.");
-                        System.out.println("And loan amount is being added to your account");
+                        System.out.println("Loan amount will be added to your account in a moment.");
                         addLoanAmount(args[2], Double.valueOf(args[4]));
                     } else {
-                        System.out.println("Bank can grant maximum loan amount of 1 Lakh only.");
+                        System.out.println("Bank can grant maximum loan amount upto 1 Lakh only.");
                     }
                 } else {
                     System.out.println("Invalid Loan Type.");
@@ -63,7 +58,7 @@ public class Amogh {
                     openingBalance = Integer.toString(0);
                 }
 
-            if (authenticateUsername(username)) {
+            if (Varun.authenticateUsername(username)) {
                 System.out.println("Hi " + name + ", your account will be created in a moment");
                 CurrentAccountUser user = new CurrentAccountUser(name, gender, username, password,
                         Integer.valueOf(openingBalance));
@@ -84,9 +79,9 @@ public class Amogh {
                         LoanAccount loanUser = new LoanAccount(data);
                         System.out.println(loanUser); 
                         System.out.println("Your loan has been approved.");
-                        System.out.println("And loan amount is added to your account");
+                        System.out.println("Loan amount is added to your account");
                     } else {
-                        System.out.println("Bank can grant maximum loan amount of 1 Lakh only.");
+                        System.out.println("Bank can grant maximum loan amount upto 1 Lakh only.");
                     }
                 } else {
                     System.out.println("Invalid Loan Type.");
@@ -99,6 +94,7 @@ public class Amogh {
             System.out.println("Invalid argument!");
         }
     }
+    
 
     /**
      * This method returns account_holder_name 
@@ -160,31 +156,4 @@ public class Amogh {
         }      
     }
 
-    /**
-     * Method for authenticating username
-     * This will return false if the username is already present in the database
-     * means that the user have to give any other username
-     * and returns true if that username is available
-     * taken from Varun.java
-     */
-    private static boolean authenticateUsername(String username) {
-        Connection con = ConnectionFactory.getConnection();
-        String query = "SELECT username FROM account";
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                if (rs.getString("username").equals(username)) {
-                    return false;
-                }
-            }
-        } catch (Exception e) {
-            if (Varun.inDevelopment) {
-                e.printStackTrace();
-            } else {
-                System.out.println("Some internal error occurred");
-            }
-            return false;
-        }
-        return true;
-    }
 }

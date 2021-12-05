@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import individuals.Varun;
 import utils.CurrentAccountUser;
 import utils.SavingAccountUser;
+import utils.helpers.LoanAccount;
 import utils.helpers.Transaction;
 
 public class SearchDataBase {
@@ -62,6 +63,78 @@ public class SearchDataBase {
             }
         }
         return null;
+    }
+
+    /**
+     * Method for searching loan details using username.
+     */
+
+    public static void searchLoan (String username) {
+        Connection con = ConnectionFactory.getConnection();
+        String query = "SELECT * FROM loan";
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            boolean isFound = false;
+            while (rs.next()) { 
+                if (rs.getString("username").equals(username)) {
+                    isFound = true;
+                    LoanAccount user = new LoanAccount(username, rs.getString("borrower_name"), rs.getString("loan_type"), Double.valueOf(rs.getString("loan_amount")));
+                    System.out.println(user);
+                }
+            }
+            if(!isFound){
+                System.out.println("No records found.");
+            }
+            
+        } catch (Exception e) {
+            if(Varun.inDevelopment){
+                e.printStackTrace();
+            } else {
+                System.out.println("Some error occurred while accessing the database");
+            }
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Method for searching loan details using loan_id.
+     */
+
+    public static void searchLoanByLoanID (int loanID) {
+        Connection con = ConnectionFactory.getConnection();
+        String query = "SELECT * FROM loan";
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            boolean isFound = false;
+            while (rs.next()) {
+                if (Integer.valueOf(rs.getString("loan_id")) == loanID) {
+                    isFound = true;
+                    LoanAccount user = new LoanAccount(rs.getString("username"), rs.getString("borrower_name"), rs.getString("loan_type"), Double.valueOf(rs.getString("loan_amount")));
+                    System.out.println(user);
+                }            
+            }
+            if(!isFound){
+                System.out.println("No records found.");
+            }
+            
+        } catch (Exception e) {
+            if(Varun.inDevelopment) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some error occurred while accessing the database");
+            }
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
