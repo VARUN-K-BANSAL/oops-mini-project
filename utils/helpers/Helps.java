@@ -83,6 +83,9 @@ public class Helps {
         System.out.println("  \t\t-a for searching using account number followed by account number");
         System.out.println("  \t\t-n for searching using name followed by name of the account holder");
         System.out.println("  \t\t-t for tracking a transaction followed by transaction Id");
+        System.out.println("  \t\t-ta for tracking a transaction by Amount");
+        System.out.println("  \t\t\t-gt followed by account to search a transaction greater than amount");
+        System.out.println("  \t\t\t-lt followed by account to search a transaction lesser than amount");
     }
 
     public static void transactionHelp() {

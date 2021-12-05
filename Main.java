@@ -67,7 +67,7 @@ public class Main {
                     Helps.searchHelp();
                     return;
                 }
-                Varun.searchUser(args);
+                Varun.search(args);
                 return;
 
             /**
