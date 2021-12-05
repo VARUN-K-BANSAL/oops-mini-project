@@ -9,7 +9,7 @@ import utils.database.ConnectionFactory;
 
 /**
  * This is an abstract class which is used by another classes like
- * CurrentAccount and SavingAccount and Loan
+ * CurrentAccount, SavingAccount and LoanAccount.
  */
 public abstract class Account {
     private String accountNumber;
@@ -33,9 +33,9 @@ public abstract class Account {
     }
 
     public String getGender(boolean isPrinting) {
-        if(gender.equals("M")) {
+        if (gender.equals("M")) {
             return "Male";
-        } else if(gender.equals("F")) {
+        } else if (gender.equals("F")) {
             return "Female";
         }
         return null;

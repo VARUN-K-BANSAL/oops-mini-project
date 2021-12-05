@@ -6,7 +6,7 @@ package utils.helpers;
 public class CurrentAccount extends Account {
 
     private final static double interestRate = 8;
-    private final static int maxLoanAmount = 4000;
+    private final static int maxLoanAmount = 100000;
 
     public static double getInterestrate() {
         return interestRate;

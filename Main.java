@@ -4,6 +4,8 @@
  */
 
 import java.io.IOException;
+
+import individuals.Amogh;
 import individuals.Varun;
 import utils.database.DataBaseModifier;
 import utils.database.DatabaseCreator;
@@ -90,6 +92,18 @@ public class Main {
                     return;
                 }
                 Varun.executeTransaction(args);
+                break;
+
+            /**
+             * Loan Facility
+             */
+            case "-l":
+                if (args.length < 5 || args.length > 8) {
+                    System.out.println("Invalid number of arguments");
+                    Helps.createLoanAccountHelp();
+                    return;
+                }
+                Amogh.createLoanAccount(args);
                 break;
 
             /**

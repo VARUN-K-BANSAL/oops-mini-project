@@ -12,6 +12,7 @@ public class Helps {
         System.out.println("  -d\tfor deleting the account");
         System.out.println("  -tr\tfor doing the transaction");
         System.out.println("  -sort\tfor printing users in sorted order of their name");
+        System.out.println("  -l\tfor loan purpose");
         System.out.println("  -h\tfor the commands help");
         System.out.println("  \tTo get help of any command just enter the command");
         System.out.println("-------------------------------------------------------------------");
@@ -35,12 +36,35 @@ public class Helps {
         System.out.println("  \t\t6. Opening balance");
     }
 
+    public static void createLoanAccountHelp() {
+        System.out.println("  -l\tfor creating new loan account");
+        System.out.println("  \t\t\tArguments");
+        System.out.println("  \t\t1. Do you have an account in bank? (Y/N)");
+        System.out.println();
+        System.out.println("  \t\tIf 'Yes(Y)' then");
+
+        System.out.println("  \t\t2. Username of your account");
+        System.out.println("  \t\t3. Loan Type {'EL' for Education Loan, 'AL' for Agriculture Loan, 'PL' for Personal Loan}");
+        System.out.println("  \t\t4. Loan Amount");
+        System.out.println();
+
+        System.out.println("  \t\tIf 'No(N)' then");
+        System.out.println("  \t\tCreate an account first.");
+        System.out.println("  \t\t2.Name of account holder(Borrower) (use \"\" if there is a space in name)");
+        System.out.println("  \t\t3.Gender M (Male) or F (Female)");
+        System.out.println("  \t\t4.Unique username to be used");
+        System.out.println("  \t\t5.Password to be used");
+        System.out.println("  \t\t6.Loan Type");
+        System.out.println("  \t\t7.Loan Amount");
+    }
+
     public static void updatePasswordHelp() {
         System.out.println("  -up\tfor updating password");
         System.out.println("  \t\t\tArguments");
         System.out.println("  \t\t1. Username");
         System.out.println("  \t\t2. Current password");
         System.out.println("  \t\t3. New password");
+
     }
 
     public static void searchHelp() {
