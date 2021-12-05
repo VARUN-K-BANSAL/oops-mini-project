@@ -95,7 +95,6 @@ public class Amogh {
         }
     }
     
-
     /**
      * This method returns account_holder_name 
      * using username provided by user.
