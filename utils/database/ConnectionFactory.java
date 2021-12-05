@@ -19,7 +19,7 @@ public class ConnectionFactory {
      * while the other is used when are creating database
      */
     private static final String URLWithoutDatabase = "jdbc:mysql://localhost:3306/";
-    private static final String URL = "jdbc:mysql://localhost:3306/" + DatabaseCreator.databaseName;
+    private static final String URL = "jdbc:mysql://localhost:3306/oops_mini_project_group_19_2021";
 
     public static String getUrl() {
         return URL;

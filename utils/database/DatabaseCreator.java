@@ -24,7 +24,6 @@ public class DatabaseCreator {
      * intialised mode or in the normal run
      */
     private static boolean initialising = false;
-    final static String databaseName = "oops_mini_project_group_19_2021";
 
     public static boolean isInitialising() {
         return initialising;
@@ -36,6 +35,7 @@ public class DatabaseCreator {
 
     public static void programInit(String args[]) {
         setInitialising(true);
+        final String databaseName = "oops_mini_project_group_19_2021";
         final String createDatabaseQuery = "CREATE DATABASE " + databaseName;
 
         Connection con = ConnectionFactory.getConnection(args[1], args[2]);
@@ -59,7 +59,6 @@ public class DatabaseCreator {
                 // e.printStackTrace();
             }
         }
-        setInitialising(false);
     }
 
     /**
@@ -96,30 +95,18 @@ public class DatabaseCreator {
                 for (String line : lines) {
                     String usersData[] = line.split(",");
                     if (usersData[1].equals("w")) {
-                        if (DataBaseModifier.withdraw(usersData)) {
-                            Transaction transaction = new Transaction(
-                                    Integer.valueOf(usersData[4]),
-                                    usersData[2],
-                                    "SELF",
-                                    "W");
+                        if(DataBaseModifier.withdraw(usersData)) {
+                            Transaction transaction = new Transaction(Integer.valueOf(usersData[4]), usersData[2], "SELF", "W");
                             DataBaseModifier.addTransaction(transaction);
                         }
                     } else if (usersData[1].equals("d")) {
-                        if (DataBaseModifier.deposit(usersData)) {
-                            Transaction transaction = new Transaction(
-                                    Integer.valueOf(usersData[3]),
-                                    usersData[2],
-                                    "SELF",
-                                    "D");
+                        if(DataBaseModifier.deposit(usersData)) {
+                            Transaction transaction = new Transaction(Integer.valueOf(usersData[3]), usersData[2], "SELF", "D");
                             DataBaseModifier.addTransaction(transaction);
                         }
                     } else if (usersData[1].equals("t")) {
-                        if (DataBaseModifier.transfer(usersData)) {
-                            Transaction transaction = new Transaction(
-                                    Integer.valueOf(usersData[4]),
-                                    usersData[2],
-                                    usersData[5],
-                                    "T");
+                        if(DataBaseModifier.transfer(usersData)) {
+                            Transaction transaction = new Transaction(Integer.valueOf(usersData[4]), usersData[2], usersData[5], "T");
                             DataBaseModifier.addTransaction(transaction);
                         }
                     }
