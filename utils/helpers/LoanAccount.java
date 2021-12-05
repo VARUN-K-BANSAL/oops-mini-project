@@ -57,13 +57,8 @@ public class LoanAccount extends Account {
         return interestRatePL;
     }
 
-    public LoanAccount(String accountNumber, double balance, String name, String gender) {
-        super(accountNumber, balance, name, gender);
-        // TODO
-    }
-
-    public LoanAccount(String username, String borrower_name, String loan_type, double loan_amount) {
-        super("", 0, "", "");
+    public LoanAccount(String username, String borrower_name, String loan_type,double loan_amount){
+        super("",0,"","");
         this.username = username;
         this.borrower_name = borrower_name;
         this.loan_type = loan_type;
@@ -101,11 +96,12 @@ public class LoanAccount extends Account {
 
     @Override
     public String toString() {
-        return " LoanAccount " + "\n"
-                + " username = " + username + "\n"
+        return "\n---------------------------------------------------------\n"  
+                + " username = " + username + "\n" 
                 + " borrower_name = " + borrower_name + "\n"
-                + " loan_type = " + loan_type + "\n"
-                + " loan_amount = " + loan_amount;
+                + " loan_type = "+ loan_type + "\n" 
+                + " loan_amount = " + loan_amount
+                + "\n---------------------------------------------------------";
     }
 
 }

@@ -88,7 +88,7 @@ public class Varun {
      * means that the user have to give any other username
      * and returns true if that username is available
      */
-    private static boolean authenticateUsername(String username) {
+    public static boolean authenticateUsername(String username) {
         Connection con = ConnectionFactory.getConnection();
         String query = "SELECT username FROM account";
         try (PreparedStatement stmt = con.prepareStatement(query)) {

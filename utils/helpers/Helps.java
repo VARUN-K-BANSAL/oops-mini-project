@@ -13,6 +13,7 @@ public class Helps {
         System.out.println("  -tr\tfor doing the transaction");
         System.out.println("  -sort\tfor printing users in sorted order of their name");
         System.out.println("  -l\tfor loan purpose");
+        System.out.println("  -sl\tfor searching loan details");
         System.out.println("  -h\tfor the commands help");
         System.out.println("  \tTo get help of any command just enter the command");
         System.out.println("-------------------------------------------------------------------");
@@ -56,6 +57,13 @@ public class Helps {
         System.out.println("  \t\t5.Password to be used");
         System.out.println("  \t\t6.Loan Type");
         System.out.println("  \t\t7.Loan Amount");
+    }
+
+    public static void searchLoanHelp() {
+        System.out.println("  -sl\tfor searching loan details");
+        System.out.println("  \t\tArguments");
+        System.out.println("  \t\t'-u' followed by username for searching using username.");
+        System.out.println("  \t\t'-id' followed by loan_id for searching using loan_id.");
     }
 
     public static void updatePasswordHelp() {

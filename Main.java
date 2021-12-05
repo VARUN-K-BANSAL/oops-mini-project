@@ -106,6 +106,24 @@ public class Main {
                 Amogh.createLoanAccount(args);
                 break;
 
+            
+            /**
+             * Search records of loans using username, loanID 
+             */
+            case "-sl":
+                    if(args.length < 3){
+                        Helps.searchLoanHelp();
+                        return;
+                    }
+                    if(args[1].equals("-u")){
+                        SearchDataBase.searchLoan(args[2]);
+                    } else if(args[1].equals("-id")){
+                        SearchDataBase.searchLoanByLoanID(Integer.valueOf(args[2]));
+                    } else{
+                        Helps.searchLoanHelp();
+                    }
+                    break;
+
             /**
              * Printing details in sorted order
              */
