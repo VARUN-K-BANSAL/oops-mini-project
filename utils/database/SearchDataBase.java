@@ -305,4 +305,46 @@ public class SearchDataBase {
             }
         }
     }
+
+    public static void searchTransaction(Integer amount, boolean isGreater) {
+        Connection con = ConnectionFactory.getConnection();
+        String query = "SELECT * FROM transaction";
+        if(isGreater) {
+            query = query + " HAVING amount >= ?";
+        } else {
+            query = query + " HAVING amount <= ?";
+        }
+        boolean isFound = false;
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, amount);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String id = Integer.toString(rs.getInt("transaction_id"));
+                String dateTime = rs.getString("transaction_date");
+                String sender = rs.getString("sender");
+                String receiver = rs.getString("receiver");
+                String type = rs.getString("type");
+                Transaction transaction = new Transaction(id, dateTime, rs.getInt("amount"), sender, receiver, type);
+                System.out.println(transaction);
+                isFound = true;
+            }
+            if (!isFound) {
+                System.out.println("No record found");
+            }
+        } catch (Exception e) {
+            if (Varun.inDevelopment) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some internal error occurred");
+            }
+        }
+        if (con != null) {
+            try {
+                con.commit();
+                con.close();
+            } catch (SQLException e) {
+                // e.printStackTrace();
+            }
+        }
+    }
 }

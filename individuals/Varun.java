@@ -179,7 +179,7 @@ public class Varun {
      * -n for searching using customer name
      * -t for searching of a transaction using its transaction id
      */
-    public static void searchUser(String[] args) {
+    public static void search(String[] args) {
         if (args[1].equals("-u")) {
             Object obj = SearchDataBase.searchUser(args[2]);
             if (obj != null) {
@@ -196,6 +196,12 @@ public class Varun {
             SearchDataBase.searchUserByName(args[2]);
         } else if (args[1].equals("-t")) {
             SearchDataBase.searchTransaction(args[2]);
+        } else if(args[1].equals("-ta")) {
+            if(args[2].equals("-gt")) {
+                SearchDataBase.searchTransaction(Integer.valueOf(args[3]), true);
+            } else if(args[2].equals("-lt")) {
+                SearchDataBase.searchTransaction(Integer.valueOf(args[3]), false);
+            }
         } else {
             System.out.println("Invalid Input");
         }
