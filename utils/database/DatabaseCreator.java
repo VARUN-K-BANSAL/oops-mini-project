@@ -87,6 +87,25 @@ public class DatabaseCreator {
                 }
             }
         }
+
+        path = Paths.get("data/initialLoanData.csv");
+        if(Files.exists(path)) {
+            List<String> lines;
+            try {
+                lines = Files.readAllLines(path);
+                for (String line : lines) {
+                    String usersData[] = line.split(",");
+                    DataBaseModifier.addDataToLoanTable(usersData);   
+                }
+            } catch (IOException e) {
+                if(Varun.inDevelopment) {
+                    e.printStackTrace();
+                } else {
+                    System.out.println("Unable to read the dummy data file");
+                }
+            }
+        }
+
         path = Paths.get("data/initialTransactionData.csv");
         if (Files.exists(path)) {
             List<String> lines;
@@ -170,6 +189,23 @@ public class DatabaseCreator {
                 e.printStackTrace();
             } else {
                 System.out.println("Some error occurred while creating the tables");
+            }
+        }
+
+        final String loanTableQuery = "CREATE TABLE loan(loan_id INT AUTO_INCREMENT PRIMARY KEY,"
+                + "username varchar(25) NOT NULL,"
+                + "borrower_name VARCHAR(30) NOT NULL,"
+                + "loan_type VARCHAR(5) NOT NULL,"
+                + "loan_amount INT NOT NULL,"
+                + "FOREIGN KEY(username) REFERENCES account(username))"
+                + "AUTO_INCREMENT = 1001";
+        try(PreparedStatement stmt = con.prepareStatement(loanTableQuery)) {
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            if(Varun.inDevelopment) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Some error occured while creating the tables");
             }
         }
 

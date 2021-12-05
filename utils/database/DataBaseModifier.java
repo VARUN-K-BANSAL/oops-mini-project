@@ -72,6 +72,30 @@ public class DataBaseModifier {
     }
 
     /**
+     * This method is used to add data into loan table using the array of Strings
+     */
+    public static void addDataToLoanTable(String data[]) {
+        Connection con = ConnectionFactory.getConnection();
+        String insertQuery = "INSERT INTO loan (username, borrower_name, loan_type, loan_amount)"
+                             + "VALUES(?,?,?,?)";
+        
+        try (PreparedStatement stmt = con.prepareStatement(insertQuery)){
+            stmt.setString(1, data[0]);
+            stmt.setString(2, data[1]);
+            stmt.setString(3, data[2]);
+            stmt.setDouble(4, Double.valueOf(data[3]));
+            stmt.executeUpdate();    
+        } catch (Exception e) {
+            if(Varun.inDevelopment) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Unable to add data to the database....");
+            }
+            return;
+        }
+    }
+    
+    /**
      * This method will update the password in the database
      * This is called from the Varun.java file
      * Please make sure to authenticate user before calling this method
